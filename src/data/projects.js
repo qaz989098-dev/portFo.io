@@ -2,7 +2,7 @@ export const profile = {
   name: '박상우',
   role: '', // 예: '앱 · 프론트엔드 개발'
   email: '', // 본인 이메일
-  photoSrc: null, // 예: '/pf/assets/images/profile/photo.png'
+  photoSrc: null, // 예: '/portFo.io/assets/images/profile/photo.png'
   resume: null,
   education: '', // 예: 'OO대학교 OO학과'
   intro: '', // 자기소개 — 직접 작성
@@ -47,22 +47,22 @@ export const projects = [
       {
         slot: 'screenshot-1',
         caption: '롱프레스 메뉴 · 출발 / 도착 / 주소',
-        // src: '/pf/assets/images/safey-nav/01-longpress.png',
+        // src: '/portFo.io/assets/images/safey-nav/01-longpress.png',
       },
       {
         slot: 'screenshot-2',
         caption: '경로 선택 카드 목록',
-        // src: '/pf/assets/images/safey-nav/02-route-cards.png',
+        // src: '/portFo.io/assets/images/safey-nav/02-route-cards.png',
       },
       {
         slot: 'screenshot-3',
         caption: '선택 경로 미리보기(시트 접힘)',
-        // src: '/pf/assets/images/safey-nav/03-preview.png',
+        // src: '/portFo.io/assets/images/safey-nav/03-preview.png',
       },
       {
         slot: 'screenshot-4',
         caption: '안내 중 UI · 격자 OFF',
-        // src: '/pf/assets/images/safey-nav/04-guidance.png',
+        // src: '/portFo.io/assets/images/safey-nav/04-guidance.png',
       },
     ],
   },

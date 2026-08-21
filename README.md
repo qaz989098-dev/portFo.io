@@ -12,12 +12,11 @@ npm run dev
 
 ## GitHub Pages 배포
 
-1. GitHub에 **`pf`** 저장소를 생성하고 push  
-   (레포 이름이 다르면 `vite.config.js`의 `base`를 `/레포이름/` 으로 맞추세요)
+1. GitHub에 **`portFo.io`** 저장소를 생성하고 `main`에 push
 2. **Settings → Pages → Build and deployment**
    - Source: **GitHub Actions**
 3. `main` push 후 workflow가 `dist`를 배포
-4. 접속 URL 예: `https://<username>.github.io/pf/`
+4. 접속 URL: `https://qaz989098-dev.github.io/portFo.io/`
 
 ## 이미지 추가
 
@@ -26,7 +25,7 @@ npm run dev
 2. `src/data/projects.js` 의 `gallery` 항목에서 `src` 주석을 해제하고 경로를 맞춥니다.
 
 ```js
-src: '/pf/assets/images/safey-nav/01-longpress.png',
+src: '/portFo.io/assets/images/safey-nav/01-longpress.png',
 ```
 
 프로필 사진은 `public/assets/images/profile/photo.png` 에 두면 됩니다.
