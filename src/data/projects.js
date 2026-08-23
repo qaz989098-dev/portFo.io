@@ -2,7 +2,7 @@ export const profile = {
   name: '박상우',
   role: '', // 예: '앱 · 프론트엔드 개발'
   email: '', // 본인 이메일
-  photoSrc: null, // 예: '/portFo.io/assets/images/profile/photo.png'
+  photoSrc: '/portFo.io/assets/images/profile/photo.png',
   resume: null,
   education: '', // 예: 'OO대학교 OO학과'
   intro: '', // 자기소개 — 직접 작성
