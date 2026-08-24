@@ -11,10 +11,11 @@ export default function Header() {
         <Link to="/" className="header__logo">
           {profile.name}
         </Link>
-        <p> 2025.08 ~ 2026.09</p>
-        {!isHome && (
+        {isHome ? (
+          <p className="header__period">Portfolio</p>
+        ) : (
           <Link to="/" className="header__back">
-            프로젝트 목록
+            목록
           </Link>
         )}
       </div>

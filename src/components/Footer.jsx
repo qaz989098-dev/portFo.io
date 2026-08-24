@@ -4,10 +4,31 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="container footer__inner">
-        <p className="footer__item">{profile.name} · {profile.role}</p>
-        <a className="footer__item" href={`mailto:${profile.email}`}>
-          {profile.email}
-        </a>
+        <p className="footer__item">
+          {profile.name}
+          {profile.location ? ` · ${profile.location}` : ''}
+          {profile.role ? ` · ${profile.role}` : ''}
+        </p>
+        {profile.email ? (
+          <a className="footer__item" href={`mailto:${profile.email}`}>
+            {profile.email}
+          </a>
+        ) : null}
+        {profile.phone ? (
+          <a className="footer__item" href={`tel:${profile.phone.replace(/\D/g, '')}`}>
+            {profile.phone}
+          </a>
+        ) : null}
+        {profile.github ? (
+          <a
+            className="footer__item"
+            href={profile.github}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+        ) : null}
         {profile.resume && (
           <a
             className="footer__item"

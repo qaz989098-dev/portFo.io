@@ -14,7 +14,7 @@ export default function TrainingDetailModal({ training, onClose }) {
       >
         <header className="modal__header">
           <h3 id="training-modal-title" className="modal__title">
-            훈련결과
+            과정 상세
           </h3>
           <button type="button" className="modal__close" onClick={onClose} aria-label="닫기">
             ×
@@ -23,7 +23,7 @@ export default function TrainingDetailModal({ training, onClose }) {
 
         <div className="modal__body">
           <section className="detail-table-section">
-            <h4 className="detail-table-section__title">훈련 정보</h4>
+            <h4 className="detail-table-section__title">과정 정보</h4>
             <dl className="detail-table">
               {trainingInfo.map(({ label, value }) => (
                 <div key={label} className="detail-table__row">

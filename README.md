@@ -20,12 +20,13 @@ npm run dev
 
 ## 이미지 추가
 
-1. `public/assets/images/safey-nav/` 에 스크린샷 저장  
-   예: `01-longpress.png`, `02-route-cards.png`, …
-2. `src/data/projects.js` 의 `gallery` 항목에서 `src` 주석을 해제하고 경로를 맞춥니다.
+1. `public/assets/images/public-safety-map/` 에 스크린샷 저장  
+   예: `cover.png`, `01-web-grid.png`, `02-app-report.png`, …
+2. `src/data/projects.js` 에서 `coverSrc`와 `gallery` 항목의 `src` 주석을 해제하고 경로를 맞춥니다.
 
 ```js
-src: '/portFo.io/assets/images/safey-nav/01-longpress.png',
+coverSrc: '/portFo.io/assets/images/public-safety-map/cover.png',
+src: '/portFo.io/assets/images/public-safety-map/01-web-grid.png',
 ```
 
 프로필 사진은 `public/assets/images/profile/photo.png` 에 두면 됩니다.
