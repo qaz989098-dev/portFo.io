@@ -6,7 +6,6 @@ export default function Footer() {
       <div className="container footer__inner">
         <p className="footer__item">
           {profile.name}
-          {profile.location ? ` · ${profile.location}` : ''}
           {profile.role ? ` · ${profile.role}` : ''}
         </p>
         {profile.email ? (
@@ -17,16 +16,6 @@ export default function Footer() {
         {profile.phone ? (
           <a className="footer__item" href={`tel:${profile.phone.replace(/\D/g, '')}`}>
             {profile.phone}
-          </a>
-        ) : null}
-        {profile.github ? (
-          <a
-            className="footer__item"
-            href={profile.github}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
           </a>
         ) : null}
         {profile.resume && (

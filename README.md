@@ -31,6 +31,13 @@ src: '/portFo.io/assets/images/public-safety-map/01-web-grid.png',
 
 프로필 사진은 `public/assets/images/profile/photo.png` 에 두면 됩니다.
 
+## 이력서 PDF
+
+1. 파일을 `public/assets/resume/park-sangwoo-resume.pdf` 로 저장합니다.
+2. 소개 영역의 PDF 버튼을 누르면 다운로드됩니다.
+
+파일 이름을 바꾸면 `src/data/projects.js` 의 `resume.href` 도 같이 맞춥니다.
+
 ## 콘텐츠 수정
 
 - 프로필·프로젝트: `src/data/projects.js`

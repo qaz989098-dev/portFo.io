@@ -1,17 +1,18 @@
 export default function ImageSlot({
+  projectId,
   slot,
   caption,
   variant = 'gallery',
   imageSrc = null,
 }) {
-  const label = caption || '예시 사진 (추가 예정)';
-  const showCaption = variant !== 'thumb';
+  const label = caption || '스크린샷 (추가 예정)';
+  const initial = (projectId || 'PF').slice(0, 2).toUpperCase();
 
   if (imageSrc) {
     return (
       <figure className={`image-slot image-slot--${variant}`} data-slot={slot}>
         <img src={imageSrc} alt={label} loading="lazy" />
-        {showCaption && caption ? <figcaption>{caption}</figcaption> : null}
+        {variant !== 'thumb' && caption ? <figcaption>{caption}</figcaption> : null}
       </figure>
     );
   }
@@ -19,10 +20,10 @@ export default function ImageSlot({
   return (
     <figure className={`image-slot image-slot--${variant} image-slot--placeholder`} data-slot={slot}>
       <div className="image-slot__placeholder" aria-hidden="true">
-        <span className="image-slot__hint">예시 사진</span>
-        <span className="image-slot__subhint">추가 예정</span>
+        <span className="image-slot__initial">{initial}</span>
+        <span className="image-slot__hint">이미지 추가 예정</span>
       </div>
-      {showCaption ? <figcaption>{label}</figcaption> : null}
+      {variant !== 'thumb' ? <figcaption>{label}</figcaption> : null}
     </figure>
   );
 }

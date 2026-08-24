@@ -8,19 +8,15 @@ export const profile = {
   github: 'https://github.com/qaz989098-dev',
   githubId: 'qaz989098-dev',
   photoSrc: '/portFo.io/assets/images/profile/photo.png',
-  resume: null,
+  resume: {
+    href: '/portFo.io/assets/resume/park-sangwoo-resume.pdf',
+    title: '박상우 이력서',
+    downloadName: '박상우_이력서.pdf',
+  },
   education: '',
-  status: 'Lab 과정 진행 중',
-  focus: ['프론트엔드', '백엔드', 'DB 관리'],
-  intro: [
-    '대구 수성알파시티를 거점으로, AI · Web / App 개발자를 목표로 하고 있습니다.',
-    '수성알파시티 실무형 AI·SW 인재육성 Lab에서 Web과 App을 익히며, 프론트엔드로 화면을 만들고 백엔드로 API와 인증을 붙이며 MariaDB로 데이터를 관리하고 있습니다.',
-  ],
-  introStack: [
-    { title: '프론트엔드', body: 'Next.js · Flutter' },
-    { title: '백엔드', body: 'Express · JWT' },
-    { title: 'DB 관리', body: 'MariaDB · Prisma' },
-  ],
+  period: '2026.06 ~ 2026.10',
+  intro:
+    '대구 수성알파시티를 거점으로 AI · Web / App 개발자를 목표로 하고 있습니다. 수성알파시티 실무형 AI·SW 인재육성 Lab에서 Web과 App을 익히며, 프론트엔드로 화면을 만들고 백엔드로 API와 인증을 붙이며 MariaDB로 데이터를 관리하고 있습니다.',
   trainings: [
     {
       id: 'suseong-alpha-lab',
@@ -45,42 +41,10 @@ export const profile = {
     },
   ],
   skills: [
-    { label: '프론트엔드', items: ['Next.js', 'TypeScript', 'Zustand', 'Flutter', '카카오맵'] },
-    { label: '백엔드', items: ['Node.js', 'Express', 'TypeScript', 'JWT'] },
-    { label: 'DB 관리', items: ['MariaDB', 'Prisma'] },
+    { label: 'Frontend', items: ['Next.js', 'TypeScript', 'Zustand', 'Flutter', 'Kakao Map'] },
+    { label: 'Backend', items: ['Node.js', 'Express', 'TypeScript', 'JWT'] },
+    { label: 'Database', items: ['MariaDB', 'Prisma'] },
     { label: 'Tools', items: ['Git', 'GitHub'] },
-  ],
-  stackAreas: [
-    {
-      title: '프론트엔드',
-      body: 'Web과 App 화면을 만들고, 지도·목록·입력처럼 사용자가 만지는 흐름을 맞춥니다. Next.js와 TypeScript로 웹을, Flutter로 앱을 구성합니다.',
-      items: [
-        'Next.js · TypeScript로 페이지와 컴포넌트를 구성',
-        'Zustand로 화면 상태를 관리',
-        'Flutter로 지도·폼·마이페이지 화면 구현',
-        '카카오맵 위에 마커·오버레이 표시',
-      ],
-    },
-    {
-      title: '백엔드',
-      body: 'Web과 App이 같은 데이터를 쓰도록 REST API와 인증을 붙입니다. Node.js · Express로 엔드포인트를 나누고, 주기 작업은 스케줄러로 둡니다.',
-      items: [
-        'Express + TypeScript API 설계',
-        'JWT / Session으로 일반 사용자·관리자 구분',
-        '인증, 조회, 등록, 관리자용 엔드포인트 분리',
-        '동기화·만료 같은 스케줄 작업',
-      ],
-    },
-    {
-      title: 'DB 관리',
-      body: 'MariaDB 스키마를 나누고 Prisma로 마이그레이션과 조회·저장을 관리합니다. 테이블 관계와 만료·활성 같은 상태를 데이터로 맞춰 둡니다.',
-      items: [
-        'MariaDB 테이블·관계 설계',
-        'Prisma 스키마와 마이그레이션 관리',
-        '사용자·위치·콘텐츠 데이터를 테이블로 분리',
-        '만료 시각, 활성 여부 등 상태 필드 관리',
-      ],
-    },
   ],
   learningSkills: {
     context: 'AI 개발',

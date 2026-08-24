@@ -38,14 +38,15 @@ export default function ProjectDetail() {
       <SideNav sections={TOC} />
 
       <div className="container detail__container">
+        <ImageSlot
+          projectId={project.id}
+          slot="hero"
+          variant="hero"
+          caption={`${project.title} 대표 이미지`}
+          imageSrc={coverSrc}
+        />
+
         <header className="detail__header">
-          <p className="hero__label">Project</p>
-          <ImageSlot
-            slot="cover"
-            variant="hero"
-            imageSrc={coverSrc}
-            caption={coverSrc ? '대표 화면' : '대표 화면 (추가 예정)'}
-          />
           <div className="detail__meta">
             <h1 className="detail__title">{project.title}</h1>
             {project.badge && (
@@ -55,7 +56,6 @@ export default function ProjectDetail() {
             )}
           </div>
           <p className="detail__period">{project.period}</p>
-          <p className="detail__lede">{project.subtitle}</p>
           <p className="detail__summary">{project.summary}</p>
           {project.stack?.length > 0 && (
             <ul className="tag-list">
@@ -256,6 +256,7 @@ export default function ProjectDetail() {
               {gallery.map((item) => (
                 <ImageSlot
                   key={item.slot}
+                  projectId={project.id}
                   slot={item.slot}
                   caption={item.caption}
                   imageSrc={item.src}
