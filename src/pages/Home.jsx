@@ -72,11 +72,17 @@ export default function Home() {
                     {profile.education || profile.location}
                   </p>
                 )}
-                {introText ? (
-                  <p className="hero__intro">{introText}</p>
-                ) : (
-                  <p className="hero__intro hero__intro--placeholder">자기소개를 추가해 주세요.</p>
-                )}
+                {Array.isArray(profile.intro)
+                  ? profile.intro.filter(Boolean).map((paragraph) => (
+                      <p key={paragraph} className="hero__intro">
+                        {paragraph}
+                      </p>
+                    ))
+                  : introText ? (
+                    <p className="hero__intro">{introText}</p>
+                  ) : (
+                    <p className="hero__intro hero__intro--placeholder">자기소개를 추가해 주세요.</p>
+                  )}
                 <div className="hero__contact">
                   {profile.email ? (
                     <a href={`mailto:${profile.email}`} className="contact-chip contact-chip--email">

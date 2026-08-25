@@ -5,15 +5,27 @@ import SideNav from '../components/SideNav';
 import { getProjectById } from '../data/projects';
 
 const TOC = [
-  { id: 'problem', label: '문제점' },
-  { id: 'overview', label: '개요' },
+  { id: 'cover', label: '표지' },
+  { id: 'contents', label: '목차' },
+  { id: 'problem', label: 'Ⅰ 문제점' },
+  { id: 'overview', label: 'Ⅱ 개요' },
   { id: 'role', label: '담당' },
-  { id: 'data', label: '데이터' },
-  { id: 'architecture', label: '아키텍처' },
-  { id: 'features', label: '기능' },
+  { id: 'data', label: 'Ⅲ 데이터' },
+  { id: 'architecture', label: 'Ⅳ 아키텍처' },
+  { id: 'features', label: 'Ⅴ 기능' },
   { id: 'screens', label: '화면' },
-  { id: 'troubleshooting', label: '트러블슈팅' },
-  { id: 'reflection', label: '정리' },
+  { id: 'troubleshooting', label: 'Ⅵ 트러블슈팅' },
+  { id: 'reflection', label: 'Ⅶ 느낀점' },
+];
+
+const CONTENTS = [
+  { no: 'Ⅰ', title: '기존 서비스의 문제점', href: 'problem' },
+  { no: 'Ⅱ', title: '프로젝트 개요', href: 'overview' },
+  { no: 'Ⅲ', title: '활용 데이터', href: 'data' },
+  { no: 'Ⅳ', title: '아키텍처', href: 'architecture' },
+  { no: 'Ⅴ', title: '기능 소개', href: 'features' },
+  { no: 'Ⅵ', title: '트러블슈팅', href: 'troubleshooting' },
+  { no: 'Ⅶ', title: '느낀점', href: 'reflection' },
 ];
 
 export default function ProjectDetail() {
@@ -34,36 +46,22 @@ export default function ProjectDetail() {
   const coverSrc = project.coverSrc || gallery.find((item) => item.src)?.src || null;
 
   return (
-    <article className="detail">
+    <article className="detail deck">
       <SideNav sections={TOC} />
 
       <div className="container detail__container">
-        <ImageSlot
-          projectId={project.id}
-          slot="hero"
-          variant="hero"
-          caption={`${project.title} 대표 이미지`}
-          imageSrc={coverSrc}
-        />
-
-        <header className="detail__header">
-          <div className="detail__meta">
-            <h1 className="detail__title">{project.title}</h1>
-            {project.badge && (
-              <Badge variant={project.type === 'solo' ? 'accent' : 'default'}>
-                {project.badge}
-              </Badge>
-            )}
+        <header className="deck-hero" id="cover">
+          <p className="deck-hero__eyebrow">{project.teamLabel} · Final Project Presentation · 2026</p>
+          <p className="deck-hero__en">{project.enTitle}</p>
+          <h1 className="deck-hero__title">{project.title}</h1>
+          <p className="deck-hero__lead">{project.subtitle}</p>
+          <p className="deck-hero__members">
+            {project.teamLabel} · {project.members?.join(' · ')}
+          </p>
+          <div className="deck-hero__meta">
+            {project.badge && <Badge>{project.badge}</Badge>}
+            <span>{project.period}</span>
           </div>
-          <p className="detail__period">{project.period}</p>
-          <p className="detail__summary">{project.summary}</p>
-          {project.stack?.length > 0 && (
-            <ul className="tag-list">
-              {project.stack.map((tech) => (
-                <li key={tech} className="tag">{tech}</li>
-              ))}
-            </ul>
-          )}
           <div className="detail__actions">
             {links.map((link) => (
               <a
@@ -79,8 +77,32 @@ export default function ProjectDetail() {
           </div>
         </header>
 
+        {coverSrc && (
+          <ImageSlot
+            projectId={project.id}
+            slot="hero"
+            variant="hero"
+            caption="Web · 안전등급 격자 지도"
+            imageSrc={coverSrc}
+          />
+        )}
+
+        <section className="detail__section" id="contents">
+          <SectionBanner no="CONTENTS" title="목차" />
+          <ol className="deck-toc">
+            {CONTENTS.map((item) => (
+              <li key={item.href}>
+                <a href={`#${item.href}`}>
+                  <span>{item.no}</span>
+                  {item.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </section>
+
         <section className="detail__section" id="problem">
-          <h2>1. 기존 서비스의 문제점</h2>
+          <SectionBanner no="01" title="기존 서비스의 문제점" en="EXISTING SERVICE ISSUES" />
           <h3 className="detail__h3">기존 서비스</h3>
           <div className="service-card service-card--text">
             <div className="service-card__body">
@@ -96,11 +118,13 @@ export default function ProjectDetail() {
               </a>
             </div>
           </div>
-          <h3 className="detail__h3">문제점</h3>
-          <ul className="issue-grid">
+          <h3 className="detail__h3">불편사항</h3>
+          <ul className="issue-grid issue-grid--five">
             {project.problems.map((item) => (
               <li key={item.title} className="issue-card">
+                <span className="deck-no">{item.no}</span>
                 <strong>{item.title}</strong>
+                <p className="issue-card__lead">{item.lead}</p>
                 <p>{item.body}</p>
               </li>
             ))}
@@ -108,31 +132,59 @@ export default function ProjectDetail() {
         </section>
 
         <section className="detail__section" id="overview">
-          <h2>2. 프로젝트 개요</h2>
+          <SectionBanner no="02" title="프로젝트 개요" en="WHY WE BUILT IT" />
           <p className="detail__prose">{project.overview.intro}</p>
+          <h3 className="detail__h3">Problem → Solution</h3>
+          <ul className="why-list">
+            {project.whyBuilt.map((item) => (
+              <li key={item.problem} className="why-card">
+                <div>
+                  <p className="why-card__kicker">PROBLEM</p>
+                  <strong>{item.problem}</strong>
+                  <p>{item.problemBody}</p>
+                </div>
+                <div>
+                  <p className="why-card__kicker why-card__kicker--sol">SOLUTION</p>
+                  <strong>{item.solution}</strong>
+                  <p>{item.solutionBody}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
           <h3 className="detail__h3">제공하는 서비스</h3>
-          <ul className="detail__list">
-            {project.overview.services.map((item) => (
-              <li key={item}>{item}</li>
+          <p className="detail__caption">● 지원 · ○ 미지원</p>
+          <div className="matrix">
+            <div className="matrix__head">
+              <span>기능</span>
+              <span>Web</span>
+              <span>App</span>
+            </div>
+            {project.featureMatrix.map((row) => (
+              <div key={row.name} className="matrix__row">
+                <div>
+                  <strong>{row.name}</strong>
+                  <p>{row.desc}</p>
+                </div>
+                <span>{row.web ? '●' : '○'}</span>
+                <span>{row.app ? '●' : '○'}</span>
+              </div>
             ))}
-          </ul>
-          <h3 className="detail__h3">핵심 기능</h3>
-          <ul className="hero__focus detail__focus">
-            {project.overview.core.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          <h3 className="detail__h3">Web / App</h3>
-          <div className="split-3">
-            <PlatformCol title="공통" items={project.overview.platforms.common} />
-            <PlatformCol title="App" items={project.overview.platforms.app} />
-            <PlatformCol title="Web" items={project.overview.platforms.web} />
           </div>
+          <h3 className="detail__h3">App 핵심 기능</h3>
+          <ul className="model-grid">
+            {project.appCore.map((item) => (
+              <li key={item.code}>
+                <span className="deck-no">{item.code}</span>
+                <strong>{item.title}</strong>
+                <p>{item.body}</p>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {project.role?.length > 0 && (
           <section className="detail__section detail__section--highlight" id="role">
-            <h2>담당 업무</h2>
+            <SectionBanner no="ROLE" title="담당 업무" en="TEAM 3 · SAFETY" />
             <ul className="detail__list">
               {project.role.map((item) => (
                 <li key={item}>{item}</li>
@@ -142,23 +194,18 @@ export default function ProjectDetail() {
         )}
 
         <section className="detail__section" id="data">
-          <h2>3. 활용 데이터</h2>
+          <SectionBanner no="03" title="활용 데이터" en="SAFETY STRENGTH — DATA PIPELINE" />
           <h3 className="detail__h3">데이터 수집</h3>
-          <p className="detail__kicker">출처</p>
-          <ul className="detail__list">
-            {project.data.sources.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          <p className="detail__kicker">주요 데이터</p>
-          <ul className="hero__focus detail__focus">
-            {project.data.examples.map((item) => (
-              <li key={item}>{item}</li>
+          <ul className="count-row">
+            {project.data.counts?.map((item) => (
+              <li key={item.label}>
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
+              </li>
             ))}
           </ul>
           <p className="detail__prose">{project.data.scale}</p>
-
-          <h3 className="detail__h3">안전등급 모델</h3>
+          <h3 className="detail__h3">안전 등급 모델</h3>
           <ol className="pipeline">
             {project.data.pipeline.map((step, index) => (
               <li key={step}>
@@ -167,6 +214,11 @@ export default function ProjectDetail() {
               </li>
             ))}
           </ol>
+          {project.data.weights && (
+            <p className="detail__prose">
+              시설군 가중치 {project.data.weights}. {project.data.formula}
+            </p>
+          )}
           <ul className="model-grid">
             {project.data.model.map((item) => (
               <li key={item.title}>
@@ -178,51 +230,39 @@ export default function ProjectDetail() {
         </section>
 
         <section className="detail__section" id="architecture">
-          <h2>4. 아키텍처</h2>
-          <h3 className="detail__h3">시스템 구조</h3>
-          <div className="arch">
-            <div className="arch__row">
-              {project.architecture.nodes.map((node) => (
-                <span key={node} className="arch__node">{node}</span>
-              ))}
-            </div>
-            <p className="arch__arrow" aria-hidden="true">↓</p>
-            <div className="arch__row">
-              {project.architecture.extras.map((node) => (
-                <span key={node} className="arch__node arch__node--soft">{node}</span>
-              ))}
-            </div>
-          </div>
-          <p className="detail__prose">{project.architecture.stackNote}</p>
-
-          {project.architecture.frontend?.length > 0 && (
-            <>
-              <h3 className="detail__h3">프론트엔드</h3>
-              <ul className="model-grid">
-                {project.architecture.frontend.map((item) => (
-                  <li key={item.title}>
-                    <strong>{item.title}</strong>
-                    <p>{item.body}</p>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
-
-          <h3 className="detail__h3">백엔드</h3>
+          <SectionBanner no="04" title="아키텍처" en="SYSTEM ARCHITECTURE" />
+          <h3 className="detail__h3">외부 연동 4종</h3>
           <ul className="model-grid">
-            {project.architecture.backend.map((item) => (
-              <li key={item.title}>
+            {project.architecture.integrations?.map((item) => (
+              <li key={item.code}>
+                <span className="deck-no">{item.code}</span>
                 <strong>{item.title}</strong>
                 <p>{item.body}</p>
               </li>
             ))}
           </ul>
-
-          <h3 className="detail__h3">DB 관리</h3>
-          {project.architecture.dbNote && (
-            <p className="detail__prose">{project.architecture.dbNote}</p>
-          )}
+          <p className="detail__prose">{project.architecture.stackNote}</p>
+          <div className="split-2">
+            <div className="panel platform-col">
+              <h4>REST Backend</h4>
+              <ul>
+                {project.architecture.restBackend?.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="panel platform-col">
+              <h4>AI / Data Pipeline</h4>
+              <ul>
+                {project.architecture.aiBackend?.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              <p className="detail__caption">운영 서버의 등급 산출은 규칙 기반이며, ML은 참고용입니다.</p>
+            </div>
+          </div>
+          <h3 className="detail__h3">DB</h3>
+          {project.architecture.dbNote && <p className="detail__prose">{project.architecture.dbNote}</p>}
           <ul className="erd">
             {project.architecture.tables.map((table) => (
               <li key={table.name}>
@@ -231,11 +271,10 @@ export default function ProjectDetail() {
               </li>
             ))}
           </ul>
-          <p className="detail__caption">grid ← infrastructures / report / feedback · user → report, feedback, city_events · device_tokens</p>
         </section>
 
         <section className="detail__section" id="features">
-          <h2>5. 기능</h2>
+          <SectionBanner no="05" title="기능 소개" en="FEATURE OVERVIEW" />
           <h3 className="detail__h3">공통</h3>
           <FeatureGroups groups={project.features.common} />
           <h3 className="detail__h3">App</h3>
@@ -246,12 +285,7 @@ export default function ProjectDetail() {
 
         {gallery.length > 0 && (
           <section className="detail__section" id="screens">
-            <h2>화면</h2>
-            {gallery.some((item) => !item.src) && (
-              <p className="detail__gallery-note">
-                예시 사진 자리입니다. 스크린샷을 넣으면 이 칸에 표시됩니다.
-              </p>
-            )}
+            <SectionBanner no="SCREEN" title="화면" en="WEB · APP" />
             <div className="gallery">
               {gallery.map((item) => (
                 <ImageSlot
@@ -267,32 +301,50 @@ export default function ProjectDetail() {
         )}
 
         <section className="detail__section" id="troubleshooting">
-          <h2>6. 트러블슈팅</h2>
-          <div className="split-2">
-            <div>
-              <h3 className="detail__h3">Web</h3>
-              {project.troubleshooting.web.map((item) => (
-                <div key={item.title} className="trouble-item">
-                  <strong>{item.title}</strong>
-                  <p>{item.body}</p>
-                </div>
-              ))}
-            </div>
-            <div>
-              <h3 className="detail__h3">App</h3>
-              {project.troubleshooting.app.map((item) => (
-                <div key={item.title} className="trouble-item">
-                  <strong>{item.title}</strong>
-                  <p>{item.body}</p>
-                </div>
-              ))}
-            </div>
+          <SectionBanner no="06" title="트러블슈팅" en="PROBLEM → CAUSE → FIX" />
+          <div className="trouble-stack">
+            {project.troubleshooting.map((item) => (
+              <article key={item.no} className="pcf">
+                <p className="pcf__head">
+                  CASE {item.no} · {item.tag}
+                </p>
+                <h3>{item.title}</h3>
+                <dl>
+                  <div>
+                    <dt>PROBLEM</dt>
+                    <dd>{item.problem}</dd>
+                  </div>
+                  <div>
+                    <dt>CAUSE</dt>
+                    <dd>{item.cause}</dd>
+                  </div>
+                  <div>
+                    <dt>FIX</dt>
+                    <dd>{item.fix}</dd>
+                  </div>
+                </dl>
+              </article>
+            ))}
           </div>
         </section>
 
         <section className="detail__section" id="reflection">
-          <h2>7. 정리</h2>
-          <p className="detail__prose">{project.reflection}</p>
+          <SectionBanner no="07" title="느낀점" en="RETROSPECTIVE" />
+          <blockquote className="quote quote--mine">
+            <p>{project.reflection}</p>
+            <cite>박상우</cite>
+          </blockquote>
+          <ul className="quote-grid">
+            {project.quotes
+              ?.filter((item) => !item.mine)
+              .map((item) => (
+                <li key={item.name}>
+                  <strong>{item.name}</strong>
+                  <p>{item.body}</p>
+                </li>
+              ))}
+          </ul>
+          <p className="deck-thanks">감사합니다 · {project.members?.join(' · ')}</p>
         </section>
 
         <div className="detail__nav">
@@ -305,16 +357,13 @@ export default function ProjectDetail() {
   );
 }
 
-function PlatformCol({ title, items }) {
+function SectionBanner({ no, title, en }) {
   return (
-    <div className="panel platform-col">
-      <h4>{title}</h4>
-      <ul>
-        {items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-    </div>
+    <header className="section-banner">
+      <p className="section-banner__no">SECTION {no}</p>
+      <h2>{title}</h2>
+      {en ? <p className="section-banner__en">{en}</p> : null}
+    </header>
   );
 }
 

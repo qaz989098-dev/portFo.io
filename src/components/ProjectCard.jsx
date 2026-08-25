@@ -39,7 +39,7 @@ export default function ProjectCard({ project }) {
         )}
         <div className="project-card__actions">
           <Link to={`/projects/${project.id}`} className="btn btn--ghost">
-            상세보기
+            상세 보기
           </Link>
           {project.github && (
             <a
