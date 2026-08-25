@@ -4,6 +4,11 @@ import ImageSlot from './ImageSlot';
 
 export default function ProjectCard({ project }) {
   const coverSrc = project.coverSrc || project.thumbSrc || project.gallery?.find((item) => item.src)?.src || null;
+  const links = project.links?.length
+    ? project.links
+    : project.github
+      ? [{ label: 'GitHub', href: project.github }]
+      : [];
 
   return (
     <article className="project-card">
@@ -41,16 +46,17 @@ export default function ProjectCard({ project }) {
           <Link to={`/projects/${project.id}`} className="btn btn--ghost">
             상세 보기
           </Link>
-          {project.github && (
+          {links.map((link) => (
             <a
-              href={project.github}
+              key={link.href}
+              href={link.href}
               className="btn btn--primary"
               target="_blank"
               rel="noopener noreferrer"
             >
-              GitHub
+              {link.label}
             </a>
-          )}
+          ))}
         </div>
       </div>
     </article>

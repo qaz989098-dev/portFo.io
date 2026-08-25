@@ -16,9 +16,9 @@ export const profile = {
   education: '',
   period: '2026.06 ~ 2026.10',
   intro: [
-    '웹·앱·서버를 함께 다루는 풀스택을 익히며, AI 개발을 목표로 공부하고 있습니다. 대구 수성알파시티 실무형 AI·SW 인재육성 Lab에서 팀으로 서비스를 만들며, 화면부터 API와 데이터까지 한 제품으로 붙이는 일을 하고 있습니다.',
-    '팀 프로젝트에서는 Flutter와 Next.js로 화면을 만들고, Express·Prisma·MariaDB로 API와 데이터를 다뤘습니다. 지도, 푸시 알림, 실시간 기능도 연동해 보았습니다. 이 경험으로 입사 후 풀스택 업무에 바로 기여하고, 이후에는 AI까지 맡고 싶습니다.',
-    'AI의 세계는 방대하며 배움에는 끝이 없습니다. 항상 배우는 자세로 끊임없이 노력하며, 맡은 업무에 최선을 다하겠습니다.',
+    '웹·앱·서버를 함께 다루는 풀스택을 익히며, AI 개발을 목표로 공부하고 있습니다. 대구 수성알파시티 실무형 AI·SW 인재육성 Lab에서 팀으로 서비스를 만들며, 화면부터 API와 데이터까지 한 제품으로 붙이는 일을 했습니다.',
+    '팀 프로젝트에서는 Flutter와 Next.js로 화면을 만들고, Express·Prisma·MariaDB로 API와 데이터를 다뤘습니다. 지도, 푸시 알림, 실시간 기능도 연동해 보았습니다. 입사 후 풀스택 업무에 바로 기여하고 싶습니다.',
+    '운영 중인 안전등급은 규칙 기반입니다. 격자·제보 데이터를 학습에 활용하는 방향을 이어서 공부하고 있습니다.',
   ],
   trainings: [
     {
@@ -52,10 +52,11 @@ export const profile = {
     { label: 'Data · AI', items: ['Python', 'pandas', 'NumPy', 'scikit-learn', 'OpenCV'] },
     { label: 'Tools', items: ['Git', 'GitHub', 'Firebase', 'KOROAD'] },
   ],
+  skillsNote: '공공안전지도 팀에서 사용한 스택입니다. 제가 깊게 붙인 일은 프로젝트 상세에 적어 두었습니다.',
   learningSkills: {
     context: '고도화',
     items: ['LLM 애플리케이션', '학습·추론 파이프라인'],
-    note: '안전등급은 매일 자정에 규칙 기반으로 다시 계산합니다. RandomForest 등 ML은 참고용이며, 격자·제보 데이터를 학습에 활용하는 방향을 공부하고 있습니다.',
+    note: '운영 중인 안전등급은 매일 자정 규칙으로 다시 계산합니다. RandomForest 등 ML은 참고용이며, 격자·제보 데이터를 학습에 활용하는 방향을 공부하고 있습니다.',
   },
 };
 
@@ -89,7 +90,36 @@ export const projects = [
         label: 'App GitHub',
         href: 'https://github.com/qaz989098-dev/public_safety_map_app',
       },
+      {
+        label: 'Web GitHub',
+        href: 'https://github.com/qaz989098-dev/public_safety_map_web',
+      },
+      {
+        label: 'Backend GitHub',
+        href: 'https://github.com/qaz989098-dev/public_safety_map_backend',
+      },
     ],
+    repoNote:
+      '앱·웹·백엔드 코드를 GitHub에서 볼 수 있습니다. 배포 주소는 팀 환경이라 이 포트폴리오에는 넣지 않았습니다.',
+    myWork: [
+      {
+        title: '안전 경로 안내',
+        body: '앱에서 지도를 길게 눌러 목적지를 정하고, CCTV 경유·최단·제보 최소화 경로를 나눴습니다. 최단 대비 소요 시간이 1.3배를 넘는 후보는 빼도록 했습니다.',
+      },
+      {
+        title: '제보와 근접 알림',
+        body: '제보·피드백·마이페이지를 붙이고, 사고다발구역이나 다른 사용자 제보에 400m 안으로 들어가면 FCM으로 알리게 했습니다.',
+      },
+      {
+        title: '웹·앱 공통 API',
+        body: 'Express·Prisma·MariaDB API를 앱과 웹이 같이 쓰도록 연동했습니다. 화면은 플랫폼마다 나누되, 데이터는 한 백엔드를 보게 했습니다.',
+      },
+      {
+        title: '등급은 규칙, AI는 다음 단계',
+        body: '운영 중인 안전등급은 매일 자정 규칙으로 다시 계산합니다. RandomForest 등 ML은 참고용이며, 격자·제보 데이터를 학습에 쓰는 방향을 공부하고 있습니다.',
+      },
+    ],
+    roleNote: '3조 SAFETY가 웹·앱·서버·데이터를 함께 만들었습니다. 아래는 팀 기능 전체입니다.',
     existingService: {
       name: '생활안전지도',
       url: 'https://www.safemap.go.kr/main/smap_renewal.do',

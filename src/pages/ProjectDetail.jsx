@@ -6,6 +6,7 @@ import { getProjectById } from '../data/projects';
 
 const TOC = [
   { id: 'cover', label: '표지' },
+  { id: 'mine', label: '내가 한 일' },
   { id: 'contents', label: '목차' },
   { id: 'problem', label: 'Ⅰ 문제점' },
   { id: 'overview', label: 'Ⅱ 개요' },
@@ -75,6 +76,7 @@ export default function ProjectDetail() {
               </a>
             ))}
           </div>
+          {project.repoNote && <p className="deck-hero__note">{project.repoNote}</p>}
         </header>
 
         {coverSrc && (
@@ -85,6 +87,21 @@ export default function ProjectDetail() {
             caption="Web · 안전등급 격자 지도"
             imageSrc={coverSrc}
           />
+        )}
+
+        {project.myWork?.length > 0 && (
+          <section className="detail__section detail__section--highlight" id="mine">
+            <SectionBanner no="WORK" title="내가 한 일" en="WHAT I WORKED ON" />
+            <p className="detail__caption">팀 기능은 아래 담당에 모두 적었습니다. 여기서는 제가 주로 붙인 부분입니다.</p>
+            <ul className="model-grid">
+              {project.myWork.map((item) => (
+                <li key={item.title}>
+                  <strong>{item.title}</strong>
+                  <p>{item.body}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
         )}
 
         <section className="detail__section" id="contents">
@@ -185,6 +202,7 @@ export default function ProjectDetail() {
         {project.role?.length > 0 && (
           <section className="detail__section detail__section--highlight" id="role">
             <SectionBanner no="ROLE" title="담당 업무" en="TEAM 3 · SAFETY" />
+            {project.roleNote && <p className="detail__caption">{project.roleNote}</p>}
             <ul className="detail__list">
               {project.role.map((item) => (
                 <li key={item}>{item}</li>

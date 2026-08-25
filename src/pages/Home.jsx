@@ -190,6 +190,9 @@ export default function Home() {
                     <SkillGroup key={group.label} label={group.label} items={group.items} />
                   ))}
                 </div>
+                {profile.skillsNote && (
+                  <p className="skills-panel-note">{profile.skillsNote}</p>
+                )}
               </div>
               {profile.learningSkills?.items?.length > 0 && (
                 <div className="panel panel--learning">
