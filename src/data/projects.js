@@ -44,13 +44,13 @@ export const profile = {
     },
   ],
   skills: [
-    { label: 'App', items: ['Flutter', 'Kakao Map', 'TMAP', 'FCM', 'SQLite'] },
-    { label: 'Web', items: ['Next.js', 'React', 'TypeScript', 'Zustand', 'Kakao Maps SDK'] },
+    { label: 'App', items: ['Flutter', 'FCM', 'SQLite'] },
+    { label: 'Web', items: ['Next.js', 'React', 'TypeScript', 'Zustand'] },
     { label: 'Backend', items: ['Node.js', 'Express', 'Prisma', 'JWT', 'Session', 'node-cron'] },
     { label: 'Realtime', items: ['Supabase', 'PostgreSQL', 'Vercel'] },
     { label: 'Database', items: ['MariaDB'] },
     { label: 'Data · AI', items: ['Python', 'pandas', 'NumPy', 'scikit-learn', 'OpenCV'] },
-    { label: 'Tools', items: ['Git', 'GitHub', 'Firebase', 'KOROAD'] },
+    { label: 'Tools', items: ['GitHub', 'Firebase'] },
   ],
   skillsNote: '공공안전지도 팀에서 사용한 스택입니다. 제가 깊게 붙인 일은 프로젝트 상세에 적어 두었습니다.',
   learningSkills: {

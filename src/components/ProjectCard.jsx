@@ -11,8 +11,8 @@ export default function ProjectCard({ project }) {
       : [];
 
   return (
-    <article className="project-card">
-      <Link to={`/projects/${project.id}`} className="project-card__thumb-link">
+    <Link to={`/projects/${project.id}`} className="project-card">
+      <div className="project-card__thumb">
         <ImageSlot
           projectId={project.id}
           slot="thumb"
@@ -20,12 +20,10 @@ export default function ProjectCard({ project }) {
           caption={null}
           imageSrc={coverSrc}
         />
-      </Link>
+      </div>
       <div className="project-card__body">
         <div className="project-card__meta">
-          <h2 className="project-card__title">
-            <Link to={`/projects/${project.id}`}>{project.title}</Link>
-          </h2>
+          <h2 className="project-card__title">{project.title}</h2>
           {project.badge && (
             <Badge variant={project.type === 'solo' ? 'accent' : 'default'}>
               {project.badge}
@@ -43,22 +41,23 @@ export default function ProjectCard({ project }) {
           </ul>
         )}
         <div className="project-card__actions">
-          <Link to={`/projects/${project.id}`} className="btn btn--ghost">
-            상세 보기
-          </Link>
+          <span className="btn btn--ghost">상세 보기</span>
           {links.map((link) => (
-            <a
+            <button
               key={link.href}
-              href={link.href}
+              type="button"
               className="btn btn--primary"
-              target="_blank"
-              rel="noopener noreferrer"
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                window.open(link.href, '_blank', 'noopener,noreferrer');
+              }}
             >
               {link.label}
-            </a>
+            </button>
           ))}
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
