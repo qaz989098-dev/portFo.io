@@ -56,7 +56,6 @@ export const profile = {
   learningSkills: {
     context: '고도화',
     items: ['LLM 애플리케이션', '학습·추론 파이프라인'],
-    note: '운영 중인 안전등급은 매일 자정 규칙으로 다시 계산합니다. RandomForest 등 ML은 참고용이며, 격자·제보 데이터를 학습에 활용하는 방향을 공부하고 있습니다.',
   },
 };
 
@@ -113,10 +112,6 @@ export const projects = [
       {
         title: '웹·앱 공통 API',
         body: 'Express·Prisma·MariaDB API를 앱과 웹이 같이 쓰도록 연동했습니다. 화면은 플랫폼마다 나누되, 데이터는 한 백엔드를 보게 했습니다.',
-      },
-      {
-        title: '등급은 규칙, AI는 다음 단계',
-        body: '운영 중인 안전등급은 매일 자정 규칙으로 다시 계산합니다. RandomForest 등 ML은 참고용이며, 격자·제보 데이터를 학습에 쓰는 방향을 공부하고 있습니다.',
       },
     ],
     roleNote: '3조 SAFETY가 웹·앱·서버·데이터를 함께 만들었습니다. 아래는 팀 기능 전체입니다.',
@@ -252,6 +247,8 @@ export const projects = [
     architecture: {
       nodes: ['Web', 'App', 'Backend', 'DB'],
       extras: ['Kakao Maps', 'KOROAD', 'FCM', 'TMAP'],
+      diagramSrc: '/portFo.io/assets/images/public-safety-map/architecture.png',
+      diagramCaption: '공공안전지도 시스템 구조 — 사용자 · Client(Web/App) · Express API · 배치·마스킹 · 외부 연동',
       stackNote:
         'Web은 Next.js App Router·TypeScript·Zustand이고, App은 Flutter입니다. REST 백엔드는 Node.js·Express·TypeScript·Prisma·JWT/Session이며, 데이터 파이프라인은 Python입니다. DB는 MariaDB입니다.',
       integrations: [

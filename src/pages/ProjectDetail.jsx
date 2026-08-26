@@ -249,6 +249,15 @@ export default function ProjectDetail() {
 
         <section className="detail__section" id="architecture">
           <SectionBanner no="04" title="아키텍처" en="SYSTEM ARCHITECTURE" />
+          {project.architecture.diagramSrc && (
+            <ImageSlot
+              projectId={project.id}
+              slot="architecture"
+              variant="diagram"
+              caption={project.architecture.diagramCaption}
+              imageSrc={project.architecture.diagramSrc}
+            />
+          )}
           <h3 className="detail__h3">외부 연동 4종</h3>
           <ul className="model-grid">
             {project.architecture.integrations?.map((item) => (
