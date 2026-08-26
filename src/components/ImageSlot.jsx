@@ -13,25 +13,21 @@ function DiagramLightbox({ src, alt, onClose }) {
       if (event.key === 'Escape') onClose();
     };
 
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [onClose]);
-
-  useEffect(() => {
-    const stage = stageRef.current;
-    if (!stage) return undefined;
-
     const handleWheel = (event) => {
       event.preventDefault();
-      const factor = event.deltaY < 0 ? 1.12 : 1 / 1.12;
+      event.stopPropagation();
+
+      const stage = stageRef.current;
+      if (!stage) return;
+
+      let dy = event.deltaY;
+      if (event.deltaMode === 1) dy *= 40;
+      if (event.deltaMode === 2) dy *= 800;
+
       const rect = stage.getBoundingClientRect();
       const cx = event.clientX - rect.left - rect.width / 2;
       const cy = event.clientY - rect.top - rect.height / 2;
+      const factor = Math.exp(-dy * 0.0025);
 
       setView((prev) => {
         const nextScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, prev.scale * factor));
@@ -47,9 +43,16 @@ function DiagramLightbox({ src, alt, onClose }) {
       });
     };
 
-    stage.addEventListener('wheel', handleWheel, { passive: false });
-    return () => stage.removeEventListener('wheel', handleWheel);
-  }, []);
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('wheel', handleWheel, { capture: true });
+    };
+  }, [onClose]);
 
   const handlePointerDown = (event) => {
     if (event.button !== 0) return;
@@ -78,14 +81,16 @@ function DiagramLightbox({ src, alt, onClose }) {
 
   return (
     <div className="lightbox" role="presentation" onClick={onClose}>
-      <button type="button" className="lightbox__close" aria-label="닫기">
+      <button type="button" className="lightbox__close" aria-label="닫기" onClick={onClose}>
         ×
       </button>
-      <p className="lightbox__hint">스크롤로 확대 · 드래그로 이동 · Esc로 닫기</p>
+      <p className="lightbox__hint">스크롤 휠로 확대 · 드래그로 이동 · Esc로 닫기 · {Math.round(view.scale * 100)}%</p>
       <div
         ref={stageRef}
         className={`lightbox__stage${view.scale > 1 ? ' lightbox__stage--zoomed' : ''}`}
-        onClick={(event) => event.stopPropagation()}
+        onClick={(event) => {
+          if (event.target === event.currentTarget) onClose();
+        }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
