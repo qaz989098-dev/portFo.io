@@ -247,6 +247,16 @@ export const projects = [
       extras: ['Kakao Maps', 'KOROAD', 'FCM', 'TMAP'],
       diagramSrc: '/portFo.io/assets/images/public-safety-map/architecture.png',
       diagramCaption: '공공안전지도 시스템 아키텍처 — 클라이언트 · 메인 백엔드 · 데이터 저장 · 외부 API · 채팅 전용',
+      diagrams: [
+        {
+          src: '/portFo.io/assets/images/public-safety-map/architecture-runtime.png',
+          caption: '런타임 REST 구조 — 사용자 · Client(Web/App) · Express API · 배치·마스킹 · Kakao·TMAP·KOROAD·FCM·MariaDB',
+        },
+        {
+          src: '/portFo.io/assets/images/public-safety-map/architecture.png',
+          caption: '공공안전지도 시스템 아키텍처 — 클라이언트 · 메인 백엔드 · 데이터 저장 · 외부 API · 채팅 전용',
+        },
+      ],
       stackNote:
         'Web은 Next.js·React·TypeScript·Zustand이고, 관리자는 Session으로 들어옵니다. App은 Flutter·Dart이며 일반 사용자는 JWT입니다. 격자·인프라는 SQLite에 받아 두고, 카카오맵·TMAP은 클라이언트가 직접 호출합니다. 메인 REST는 Node.js·Express·Prisma이고, 매일 자정 node-cron으로 안전등급을 다시 계산합니다. 제보 사진은 Python·OpenCV YuNet으로 모자이크합니다. 1:1 채팅은 메인 백엔드와 분리해 Supabase Realtime으로 두었습니다.',
       integrations: [
