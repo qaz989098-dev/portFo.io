@@ -829,13 +829,71 @@ img {
   margin-bottom: 1.5rem;
 }
 
-.image-slot--diagram img {
+.image-slot--diagram .image-slot__zoom img,
+.image-slot--diagram > img {
   width: 100%;
   height: auto;
   object-fit: contain;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius);
+}
+
+.image-slot__zoom {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.image-slot__zoom:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.25rem 1.25rem;
+  background: rgba(15, 23, 42, 0.82);
+  cursor: zoom-out;
+}
+
+.lightbox img {
+  width: auto;
+  max-width: min(96vw, 1400px);
+  max-height: calc(100vh - 4rem);
+  object-fit: contain;
+  background: #fff;
+  border-radius: 8px;
+  cursor: default;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #111827;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lightbox__close:hover {
+  background: #e5e7eb;
 }
 
 .image-slot__initial {
