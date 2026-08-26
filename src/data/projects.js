@@ -246,22 +246,27 @@ export const projects = [
       nodes: ['Web', 'App', 'Backend', 'DB'],
       extras: ['Kakao Maps', 'KOROAD', 'FCM', 'TMAP'],
       diagramSrc: '/portFo.io/assets/images/public-safety-map/architecture.png',
-      diagramCaption: '공공안전지도 시스템 구조 — 사용자 · Client(Web/App) · Express API · 배치·마스킹 · 외부 연동',
+      diagramCaption: '공공안전지도 시스템 아키텍처 — 클라이언트 · 메인 백엔드 · 데이터 저장 · 외부 API · 채팅 전용',
       stackNote:
-        'Web은 Next.js App Router·TypeScript·Zustand이고, App은 Flutter입니다. REST 백엔드는 Node.js·Express·TypeScript·Prisma·JWT/Session이며, 데이터 파이프라인은 Python입니다. DB는 MariaDB입니다.',
+        'Web은 Next.js·React·TypeScript·Zustand이고, 관리자는 Session으로 들어옵니다. App은 Flutter·Dart이며 일반 사용자는 JWT입니다. 격자·인프라는 SQLite에 받아 두고, 카카오맵·TMAP은 클라이언트가 직접 호출합니다. 메인 REST는 Node.js·Express·Prisma이고, 매일 자정 node-cron으로 안전등급을 다시 계산합니다. 제보 사진은 Python·OpenCV YuNet으로 모자이크합니다. 1:1 채팅은 메인 백엔드와 분리해 Supabase Realtime으로 두었습니다.',
       integrations: [
-        { code: 'MAP', title: 'Kakao Maps API', body: '지도 렌더링 · 격자 Polygon · 마커 · 주소 검색' },
-        { code: 'DATA', title: 'KOROAD 공공데이터', body: '보행자·자전거·이륜차·어린이보호구역 사고다발' },
-        { code: 'PUSH', title: 'Firebase Cloud Messaging', body: '신규 제보·근접 이벤트 푸시' },
-        { code: 'ROUTE', title: 'TMAP 보행자 경로', body: '경로 탐색 · 회피 경로 · 소요 시간' },
+        { code: 'MAP', title: 'Kakao Maps API', body: 'Web SDK · App Local REST로 클라이언트가 직접 호출합니다. 지도 렌더링, 격자 Polygon, 주소 검색.' },
+        { code: 'DATA', title: 'KOROAD 공공데이터', body: '보행자·자전거·이륜차·어린이보호구역 사고다발 4종. 줌 임계값으로 호출을 줄입니다.' },
+        { code: 'PUSH', title: 'Firebase Cloud Messaging', body: 'Firebase Admin SDK로 신규 제보를 브로드캐스트합니다. App은 400m 필터로 수신합니다.' },
+        { code: 'ROUTE', title: 'TMAP 보행자 경로', body: 'SK Open API. App이 직접 호출합니다. 경로 탐색 · 회피 경로.' },
       ],
-      restBackend: ['Node.js', 'TypeScript', 'Express.js', 'Prisma', 'JWT + Session'],
-      aiBackend: ['Python', 'pandas', 'NumPy', 'scikit-learn', 'OpenCV'],
+      restBackend: ['Node.js', 'TypeScript', 'Express.js', 'Prisma', 'JWT + Session', 'bcrypt', 'node-cron'],
+      aiBackend: ['Python', 'OpenCV', 'YuNet (ONNX)', 'pandas', 'NumPy', 'scikit-learn'],
       frontend: [
-        { title: 'Web', body: 'Next.js App Router와 TypeScript로 열람·관리 화면을 만듭니다. Zustand로 지도 상태와 로그인 상태를 관리하고, 카카오맵 위에 격자·제보·도시정보 오버레이를 올립니다.' },
-        { title: 'App', body: 'Flutter로 제보·피드백 등록, 마이페이지, FCM·400m 근접 알림을 구현합니다. Provider와 Geolocator로 위치·화면 상태를 맞춥니다.' },
-        { title: '공통 UX', body: 'Web은 열람과 검수, App은 현장 입력에 맞춥니다. 같은 API를 쓰되 화면 역할은 나눕니다.' },
+        { title: 'Web', body: 'Next.js·React·TypeScript·Zustand로 열람·관리 화면을 만듭니다. 관리자는 Session 인증이고, 카카오맵 SDK 위에 격자와 채팅 FAB를 올립니다.' },
+        { title: 'App', body: 'Flutter·Dart로 제보·피드백·길찾기·마이페이지를 만듭니다. JWT 인증, GPS, 카카오 Local REST, TMAP 보행 경로, FCM 400m 알림을 붙였습니다.' },
+        { title: '로컬 캐시', body: '격자·인프라 데이터를 SQLite(sqflite)에 받아 두어, 지도를 다시 그릴 때 요청을 덜 보냅니다.' },
       ],
+      chat: {
+        title: '채팅 전용 시스템',
+        body: '1:1 상담·공지·관제는 메인 REST와 분리했습니다. Supabase Realtime(PostgreSQL)을 쓰고 Next.js는 Vercel에 올렸습니다. 무료 플랜이 잠들지 않게 cron-job.org가 5분마다 Keep-Alive(SELECT 1)를 보냅니다.',
+        items: ['Supabase Realtime', 'PostgreSQL', 'Vercel', 'cron-job.org'],
+      },
       backend: [
         { title: '인증', body: '일반 사용자와 관리자를 JWT와 Session으로 구분합니다. 관리자 계정은 앱 로그인을 막고 웹 콘솔로 안내합니다.' },
         { title: 'API 구조', body: '/v1/auth, /grids, /reports, /feedbacks, /city-events, /devices, /admin, /meta' },
@@ -278,7 +283,7 @@ export const projects = [
         { name: 'tag', fields: 'feedback_tag' },
       ],
       dbNote:
-        'MariaDB + Prisma로 스키마와 마이그레이션을 관리합니다. user를 중심으로 report·feedback·device_tokens를 연결하고, grid에 infrastructures를 붙입니다. 제보는 expire_at·is_active로 만료와 표시 여부를 다룹니다.',
+        '도메인 DB는 MariaDB이고 Prisma로 11개 테이블을 관리합니다. user를 중심으로 report·feedback·device_tokens를 연결하고, grid에 infrastructures를 붙입니다. 제보는 expire_at·is_active로 만료와 표시를 다룹니다. 채팅 데이터는 이 DB가 아니라 Supabase PostgreSQL에 있습니다. App은 격자·인프라를 SQLite에 캐시합니다.',
     },
     features: {
       common: [

@@ -258,20 +258,20 @@ export default function ProjectDetail() {
               imageSrc={project.architecture.diagramSrc}
             />
           )}
-          <h3 className="detail__h3">외부 연동 4종</h3>
+          <h3 className="detail__h3">클라이언트</h3>
           <ul className="model-grid">
-            {project.architecture.integrations?.map((item) => (
-              <li key={item.code}>
-                <span className="deck-no">{item.code}</span>
+            {project.architecture.frontend?.map((item) => (
+              <li key={item.title}>
                 <strong>{item.title}</strong>
                 <p>{item.body}</p>
               </li>
             ))}
           </ul>
+          <h3 className="detail__h3">메인 백엔드</h3>
           <p className="detail__prose">{project.architecture.stackNote}</p>
           <div className="split-2">
             <div className="panel platform-col">
-              <h4>REST Backend</h4>
+              <h4>REST API</h4>
               <ul>
                 {project.architecture.restBackend?.map((item) => (
                   <li key={item}>{item}</li>
@@ -279,16 +279,16 @@ export default function ProjectDetail() {
               </ul>
             </div>
             <div className="panel platform-col">
-              <h4>AI / Data Pipeline</h4>
+              <h4>AI 서브프로세스</h4>
               <ul>
                 {project.architecture.aiBackend?.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-              <p className="detail__caption">운영 중인 등급 산출은 규칙 기반이며, ML은 참고용입니다.</p>
+              <p className="detail__caption">제보 사진은 YuNet으로 모자이크합니다. 운영 중인 등급 산출은 규칙 기반이며, RandomForest는 참고용입니다.</p>
             </div>
           </div>
-          <h3 className="detail__h3">DB</h3>
+          <h3 className="detail__h3">데이터 저장</h3>
           {project.architecture.dbNote && <p className="detail__prose">{project.architecture.dbNote}</p>}
           <ul className="erd">
             {project.architecture.tables.map((table) => (
@@ -298,6 +298,27 @@ export default function ProjectDetail() {
               </li>
             ))}
           </ul>
+          <h3 className="detail__h3">외부 API</h3>
+          <ul className="model-grid">
+            {project.architecture.integrations?.map((item) => (
+              <li key={item.code}>
+                <span className="deck-no">{item.code}</span>
+                <strong>{item.title}</strong>
+                <p>{item.body}</p>
+              </li>
+            ))}
+          </ul>
+          {project.architecture.chat && (
+            <>
+              <h3 className="detail__h3">{project.architecture.chat.title}</h3>
+              <p className="detail__prose">{project.architecture.chat.body}</p>
+              <ul className="tag-list">
+                {project.architecture.chat.items.map((item) => (
+                  <li key={item} className="tag">{item}</li>
+                ))}
+              </ul>
+            </>
+          )}
         </section>
 
         <section className="detail__section" id="features">
