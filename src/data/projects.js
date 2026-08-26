@@ -98,8 +98,6 @@ export const projects = [
         href: 'https://github.com/qaz989098-dev/public_safety_map_backend',
       },
     ],
-    repoNote:
-      '앱·웹·백엔드 코드를 GitHub에서 볼 수 있습니다. 배포 주소는 팀 환경이라 이 포트폴리오에는 넣지 않았습니다.',
     myWork: [
       {
         title: '안전 경로 안내',
@@ -114,7 +112,7 @@ export const projects = [
         body: 'Express·Prisma·MariaDB API를 앱과 웹이 같이 쓰도록 연동했습니다. 화면은 플랫폼마다 나누되, 데이터는 한 백엔드를 보게 했습니다.',
       },
     ],
-    roleNote: '3조 SAFETY가 웹·앱·서버·데이터를 함께 만들었습니다. 아래는 팀 기능 전체입니다.',
+    roleNote: '3조 SAFETY가 웹·앱·데이터를 함께 만들었습니다. 아래는 팀 기능 전체입니다.',
     existingService: {
       name: '생활안전지도',
       url: 'https://www.safemap.go.kr/main/smap_renewal.do',

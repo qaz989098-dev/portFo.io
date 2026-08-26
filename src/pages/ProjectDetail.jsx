@@ -285,7 +285,7 @@ export default function ProjectDetail() {
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-              <p className="detail__caption">운영 서버의 등급 산출은 규칙 기반이며, ML은 참고용입니다.</p>
+              <p className="detail__caption">운영 중인 등급 산출은 규칙 기반이며, ML은 참고용입니다.</p>
             </div>
           </div>
           <h3 className="detail__h3">DB</h3>
