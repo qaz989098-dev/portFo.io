@@ -4,11 +4,13 @@ import ProjectCard from '../components/ProjectCard';
 import SkillGroup from '../components/SkillGroup';
 import ResumeAttach from '../components/ResumeAttach';
 import TrainingDetailModal from '../components/TrainingDetailModal';
+import EpilogueModal from '../components/EpilogueModal';
 import SideNav from '../components/SideNav';
 import Badge from '../components/Badge';
 
 export default function Home() {
   const [selectedTraining, setSelectedTraining] = useState(null);
+  const [epilogueOpen, setEpilogueOpen] = useState(false);
 
   const introText = Array.isArray(profile.intro)
     ? profile.intro.filter(Boolean).join(' ')
@@ -26,12 +28,13 @@ export default function Home() {
     }
 
     sections.push({ id: 'projects', label: 'Projects', targetId: 'projects-list' });
+    sections.push({ id: 'epilogue', label: 'Epilogue' });
 
     return sections;
   }, []);
 
   useEffect(() => {
-    if (!selectedTraining) return undefined;
+    if (!selectedTraining || epilogueOpen) return undefined;
 
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') setSelectedTraining(null);
@@ -44,7 +47,7 @@ export default function Home() {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedTraining]);
+  }, [selectedTraining, epilogueOpen]);
 
   return (
     <>
@@ -219,11 +222,30 @@ export default function Home() {
             ))}
           </div>
         </section>
+
+        <section className="section" id="epilogue">
+          <h2 className="section__title">Epilogue</h2>
+          <div className="panel epilogue-panel">
+            <p className="epilogue-panel__lead">포트폴리오를 마치며 남기는 글입니다.</p>
+            <button
+              type="button"
+              className="epilogue-btn"
+              onClick={() => setEpilogueOpen(true)}
+            >
+              에필로그
+            </button>
+          </div>
+        </section>
       </div>
 
       <TrainingDetailModal
         training={selectedTraining}
         onClose={() => setSelectedTraining(null)}
+      />
+      <EpilogueModal
+        open={epilogueOpen}
+        published={profile.epilogue}
+        onClose={() => setEpilogueOpen(false)}
       />
     </>
   );

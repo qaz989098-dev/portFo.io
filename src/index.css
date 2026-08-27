@@ -1486,6 +1486,64 @@ img {
   padding: 1rem 1.25rem 1.25rem;
 }
 
+.modal__dialog--epilogue {
+  width: min(100%, 40rem);
+  max-height: min(90vh, 40rem);
+}
+
+.epilogue-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.epilogue-panel__lead {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.epilogue-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 8.5rem;
+  padding: 0.65rem 1.35rem;
+  border: 0;
+  border-radius: 999px;
+  background: #111827;
+  color: #fff;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.16);
+  transition: transform 0.15s, background 0.15s, box-shadow 0.15s;
+}
+
+.epilogue-btn:hover {
+  background: var(--accent);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.28);
+  transform: translateY(-1px);
+}
+
+.epilogue-body {
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+.epilogue-body p {
+  margin: 0 0 0.9em;
+}
+
+.epilogue-body p:last-child {
+  margin-bottom: 0;
+}
+
 .detail-table-section + .detail-table-section {
   margin-top: 1.25rem;
 }
