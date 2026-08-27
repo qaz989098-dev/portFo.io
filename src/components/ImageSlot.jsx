@@ -14,6 +14,7 @@ function DiagramLightbox({ src, alt, onClose }) {
   const [fitWidth, setFitWidth] = useState(0);
   const graphicRef = useRef(null);
   const dragRef = useRef(null);
+  const didDragRef = useRef(false);
   const fitWidthRef = useRef(0);
   const vector = isSvgSrc(src);
   fitWidthRef.current = fitWidth;
@@ -98,6 +99,7 @@ function DiagramLightbox({ src, alt, onClose }) {
   const handlePointerDown = (event) => {
     if (event.button !== 0) return;
     event.preventDefault();
+    didDragRef.current = false;
     dragRef.current = {
       x: event.clientX,
       y: event.clientY,
@@ -109,15 +111,30 @@ function DiagramLightbox({ src, alt, onClose }) {
 
   const handlePointerMove = (event) => {
     if (!dragRef.current) return;
+    const dx = event.clientX - dragRef.current.x;
+    const dy = event.clientY - dragRef.current.y;
+    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+      didDragRef.current = true;
+    }
     setView((prev) => ({
       ...prev,
-      x: dragRef.current.originX + (event.clientX - dragRef.current.x),
-      y: dragRef.current.originY + (event.clientY - dragRef.current.y),
+      x: dragRef.current.originX + dx,
+      y: dragRef.current.originY + dy,
     }));
   };
 
   const handlePointerUp = () => {
     dragRef.current = null;
+  };
+
+  const handleStageClick = (event) => {
+    event.stopPropagation();
+    if (didDragRef.current) return;
+    if (event.target === event.currentTarget) onClose();
+  };
+
+  const handleGraphicClick = (event) => {
+    event.stopPropagation();
   };
 
   const graphicStyle = vector
@@ -132,17 +149,23 @@ function DiagramLightbox({ src, alt, onClose }) {
       };
 
   return (
-    <div className="lightbox" role="presentation" onClick={onClose}>
-      <button type="button" className="lightbox__close" aria-label="닫기" onClick={onClose}>
+    <div className="lightbox" role="presentation">
+      <button
+        type="button"
+        className="lightbox__close"
+        aria-label="닫기"
+        onClick={(event) => {
+          event.stopPropagation();
+          onClose();
+        }}
+      >
         ×
       </button>
       <p className="lightbox__hint">스크롤 휠로 확대 · 드래그로 이동 · Esc로 닫기 · {Math.round(view.scale * 100)}%</p>
       <div
         ref={stageRef}
         className={`lightbox__stage${view.scale > 1 ? ' lightbox__stage--zoomed' : ''}`}
-        onClick={(event) => {
-          if (event.target === event.currentTarget) onClose();
-        }}
+        onClick={handleStageClick}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
@@ -155,10 +178,18 @@ function DiagramLightbox({ src, alt, onClose }) {
             style={graphicStyle}
             aria-label={alt}
             role="img"
+            onClick={handleGraphicClick}
             dangerouslySetInnerHTML={{ __html: svgMarkup }}
           />
         ) : (
-          <img src={src} alt={alt} decoding="sync" draggable={false} style={graphicStyle} />
+          <img
+            src={src}
+            alt={alt}
+            decoding="sync"
+            draggable={false}
+            style={graphicStyle}
+            onClick={handleGraphicClick}
+          />
         )}
       </div>
     </div>
