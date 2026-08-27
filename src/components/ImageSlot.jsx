@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import architectureSvg from '../assets/diagrams/architecture.svg?raw';
 import architectureRuntimeSvg from '../assets/diagrams/architecture-runtime.svg?raw';
 
@@ -22,9 +22,11 @@ function prepareSvg(text) {
 }
 
 function useSvgMarkup(src) {
-  const bundled = BUNDLED_SVG[src] || BUNDLED_SVG[String(src).split('?')[0]];
-  const prepared = bundled ? prepareSvg(bundled) : '';
-  return isSvgSrc(src) ? prepared : '';
+  return useMemo(() => {
+    const bundled = BUNDLED_SVG[src] || BUNDLED_SVG[String(src).split('?')[0]];
+    if (!bundled || !isSvgSrc(src)) return '';
+    return prepareSvg(bundled);
+  }, [src]);
 }
 
 function clampScale(value) {
@@ -37,6 +39,7 @@ function zoomAt(prev, clientX, clientY, stage, factor) {
   const my = clientY - rect.top;
   const nextScale = clampScale(prev.scale * factor);
   const ratio = nextScale / prev.scale;
+  if (ratio === 1) return prev;
   return {
     scale: nextScale,
     x: mx - (mx - prev.x) * ratio,
@@ -48,36 +51,42 @@ function DiagramLightbox({ src, alt, onClose }) {
   const stageRef = useRef(null);
   const graphicRef = useRef(null);
   const dragRef = useRef(null);
-  const centeredRef = useRef(false);
   const viewRef = useRef({ scale: 1, x: 0, y: 0 });
+  const fittedRef = useRef(false);
+  const [base, setBase] = useState({ w: 0, h: 0 });
   const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
   const svgMarkup = useSvgMarkup(src);
-  const vector = Boolean(svgMarkup);
   viewRef.current = view;
 
   useLayoutEffect(() => {
-    const stage = stageRef.current;
-    const graphic = graphicRef.current;
-    if (!stage || !graphic) return undefined;
+    const fit = () => {
+      if (fittedRef.current) return true;
+      const stage = stageRef.current;
+      const svg = graphicRef.current?.querySelector('svg');
+      if (!stage || !svg) return false;
 
-    const center = () => {
-      if (centeredRef.current) return true;
-      const gw = graphic.offsetWidth;
-      const gh = graphic.offsetHeight;
-      if (gw < 8 || gh < 8) return false;
-      centeredRef.current = true;
+      const vb = svg.viewBox.baseVal;
+      const svgW = vb && vb.width ? vb.width : svg.width.baseVal.value || 1400;
+      const svgH = vb && vb.height ? vb.height : svg.height.baseVal.value || 900;
+      const maxW = stage.clientWidth * 0.92;
+      const maxH = stage.clientHeight - 56;
+      const next = Math.min(maxW / svgW, maxH / svgH);
+      const w = svgW * next;
+      const h = svgH * next;
+      fittedRef.current = true;
+      setBase({ w, h });
       setView({
         scale: 1,
-        x: (stage.clientWidth - gw) / 2,
-        y: (stage.clientHeight - gh) / 2,
+        x: (stage.clientWidth - w) / 2,
+        y: (stage.clientHeight - h) / 2,
       });
       return true;
     };
 
-    if (center()) return undefined;
-    const frame = window.requestAnimationFrame(center);
+    if (fit()) return undefined;
+    const frame = window.requestAnimationFrame(fit);
     return () => window.cancelAnimationFrame(frame);
-  }, [svgMarkup, vector]);
+  }, [svgMarkup]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -88,14 +97,13 @@ function DiagramLightbox({ src, alt, onClose }) {
       event.preventDefault();
       event.stopPropagation();
       const stage = stageRef.current;
-      if (!stage || !centeredRef.current) return;
+      if (!stage || base.w < 8) return;
 
       let dy = event.deltaY;
       if (event.deltaMode === 1) dy *= 16;
       if (event.deltaMode === 2) dy *= stage.clientHeight;
-      const factor = Math.exp(-dy * 0.0018);
 
-      setView((prev) => zoomAt(prev, event.clientX, event.clientY, stage, factor));
+      setView((prev) => zoomAt(prev, event.clientX, event.clientY, stage, Math.exp(-dy * 0.0018)));
     };
 
     document.body.style.overflow = 'hidden';
@@ -107,13 +115,14 @@ function DiagramLightbox({ src, alt, onClose }) {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('wheel', handleWheel, { capture: true });
     };
-  }, [onClose]);
+  }, [onClose, base.w]);
 
   const handlePointerDown = (event) => {
     if (event.button !== 0) return;
     event.preventDefault();
     event.stopPropagation();
     dragRef.current = {
+      pointerId: event.pointerId,
       x: event.clientX,
       y: event.clientY,
       originX: viewRef.current.x,
@@ -123,22 +132,20 @@ function DiagramLightbox({ src, alt, onClose }) {
   };
 
   const handlePointerMove = (event) => {
-    if (!dragRef.current) return;
-    const dx = event.clientX - dragRef.current.x;
-    const dy = event.clientY - dragRef.current.y;
+    const drag = dragRef.current;
+    if (!drag) return;
     setView((prev) => ({
       ...prev,
-      x: dragRef.current.originX + dx,
-      y: dragRef.current.originY + dy,
+      x: drag.originX + (event.clientX - drag.x),
+      y: drag.originY + (event.clientY - drag.y),
     }));
   };
 
-  const handlePointerUp = () => {
+  const handlePointerUp = (event) => {
+    if (dragRef.current && event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
     dragRef.current = null;
-  };
-
-  const graphicStyle = {
-    transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})`,
   };
 
   return (
@@ -164,33 +171,28 @@ function DiagramLightbox({ src, alt, onClose }) {
       </p>
       <div
         ref={stageRef}
-        className={`lightbox__stage${view.scale > 1 ? ' lightbox__stage--zoomed' : ''}`}
+        className="lightbox__stage"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
-        onPointerCancel={() => {
-          dragRef.current = null;
-        }}
+        onPointerCancel={handlePointerUp}
       >
-        {vector ? (
+        <div
+          ref={graphicRef}
+          className="lightbox__graphic"
+          style={{
+            left: `${view.x}px`,
+            top: `${view.y}px`,
+            width: base.w ? `${base.w * view.scale}px` : undefined,
+          }}
+          aria-label={alt}
+          role="img"
+        >
           <div
-            ref={graphicRef}
-            className="lightbox__graphic"
-            style={graphicStyle}
-            aria-label={alt}
-            role="img"
+            className="lightbox__graphic-inner"
             dangerouslySetInnerHTML={{ __html: svgMarkup }}
           />
-        ) : (
-          <img
-            ref={graphicRef}
-            src={src}
-            alt={alt}
-            decoding="sync"
-            draggable={false}
-            style={graphicStyle}
-          />
-        )}
+        </div>
       </div>
     </div>
   );

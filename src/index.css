@@ -916,24 +916,23 @@ img {
   top: 0;
   left: 0;
   display: block;
-  width: auto;
-  height: auto;
-  max-width: min(92vw, 1400px);
-  max-height: calc(100vh - 5.5rem);
   background: #fff;
   border-radius: 8px;
   cursor: inherit;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
-  transform-origin: 0 0;
   user-select: none;
 }
 
-.lightbox__graphic svg {
+.lightbox__graphic-inner {
   display: block;
-  width: auto;
+  width: 100%;
+  line-height: 0;
+}
+
+.lightbox__graphic-inner svg {
+  display: block;
+  width: 100%;
   height: auto;
-  max-width: min(92vw, 1400px);
-  max-height: calc(100vh - 5.5rem);
   pointer-events: none;
   text-rendering: geometricPrecision;
   shape-rendering: geometricPrecision;
