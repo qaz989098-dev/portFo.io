@@ -837,6 +837,7 @@ img {
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  image-rendering: auto;
 }
 
 .image-slot__zoom {
@@ -898,7 +899,8 @@ img {
   cursor: grabbing;
 }
 
-.lightbox img {
+.lightbox img,
+.lightbox__graphic {
   display: block;
   width: auto;
   max-width: min(96vw, 1600px);
@@ -911,6 +913,21 @@ img {
   transform-origin: center center;
   will-change: transform;
   user-select: none;
+}
+
+.lightbox__graphic svg {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(96vw, 1600px);
+  max-height: calc(100vh - 5rem);
+  pointer-events: none;
+}
+
+.lightbox__graphic--zoomed svg {
+  width: 100%;
+  max-width: none;
+  max-height: none;
 }
 
 .lightbox__close {

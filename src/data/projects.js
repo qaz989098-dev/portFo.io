@@ -245,15 +245,15 @@ export const projects = [
     architecture: {
       nodes: ['Web', 'App', 'Backend', 'DB'],
       extras: ['Kakao Maps', 'KOROAD', 'FCM', 'TMAP'],
-      diagramSrc: '/portFo.io/assets/images/public-safety-map/architecture.png',
+      diagramSrc: '/portFo.io/assets/images/public-safety-map/architecture.svg',
       diagramCaption: '공공안전지도 시스템 아키텍처 — 클라이언트 · 메인 백엔드 · 데이터 저장 · 외부 API · 채팅 전용',
       diagrams: [
         {
-          src: '/portFo.io/assets/images/public-safety-map/architecture-runtime.png',
+          src: '/portFo.io/assets/images/public-safety-map/architecture-runtime.svg',
           caption: '런타임 REST 구조 — 사용자 · Client(Web/App) · Express API · 배치·마스킹 · Kakao·TMAP·KOROAD·FCM·MariaDB',
         },
         {
-          src: '/portFo.io/assets/images/public-safety-map/architecture.png',
+          src: '/portFo.io/assets/images/public-safety-map/architecture.svg',
           caption: '공공안전지도 시스템 아키텍처 — 클라이언트 · 메인 백엔드 · 데이터 저장 · 외부 API · 채팅 전용',
         },
       ],

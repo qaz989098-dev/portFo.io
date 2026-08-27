@@ -1,12 +1,52 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 8;
 
+function isSvgSrc(src) {
+  return /\.svg($|\?)/i.test(src);
+}
+
 function DiagramLightbox({ src, alt, onClose }) {
   const stageRef = useRef(null);
   const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
+  const [svgMarkup, setSvgMarkup] = useState('');
+  const [fitWidth, setFitWidth] = useState(0);
+  const graphicRef = useRef(null);
   const dragRef = useRef(null);
+  const fitWidthRef = useRef(0);
+  const vector = isSvgSrc(src);
+  fitWidthRef.current = fitWidth;
+
+  useEffect(() => {
+    if (!vector) return undefined;
+    let cancelled = false;
+
+    fetch(src)
+      .then((response) => response.text())
+      .then((text) => {
+        if (cancelled) return;
+        setSvgMarkup(
+          text
+            .replace(/<\?xml[\s\S]*?\?>/i, '')
+            .replace(/<!DOCTYPE[\s\S]*?>/i, '')
+            .trim(),
+        );
+      })
+      .catch(() => {
+        if (!cancelled) setSvgMarkup('');
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [src, vector]);
+
+  useLayoutEffect(() => {
+    if (!vector || view.scale !== 1 || !graphicRef.current) return;
+    const width = graphicRef.current.getBoundingClientRect().width;
+    if (width > 0) setFitWidth(width);
+  }, [svgMarkup, vector, view.scale]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -19,6 +59,7 @@ function DiagramLightbox({ src, alt, onClose }) {
 
       const stage = stageRef.current;
       if (!stage) return;
+      if (vector && !fitWidthRef.current) return;
 
       let dy = event.deltaY;
       if (event.deltaMode === 1) dy *= 40;
@@ -79,6 +120,17 @@ function DiagramLightbox({ src, alt, onClose }) {
     dragRef.current = null;
   };
 
+  const graphicStyle = vector
+    ? {
+        width: fitWidth && view.scale !== 1 ? `${fitWidth * view.scale}px` : undefined,
+        maxWidth: view.scale > 1 ? 'none' : undefined,
+        maxHeight: view.scale > 1 ? 'none' : undefined,
+        transform: `translate(${view.x}px, ${view.y}px)`,
+      }
+    : {
+        transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})`,
+      };
+
   return (
     <div className="lightbox" role="presentation" onClick={onClose}>
       <button type="button" className="lightbox__close" aria-label="닫기" onClick={onClose}>
@@ -96,15 +148,18 @@ function DiagramLightbox({ src, alt, onClose }) {
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
       >
-        <img
-          src={src}
-          alt={alt}
-          decoding="sync"
-          draggable={false}
-          style={{
-            transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})`,
-          }}
-        />
+        {vector && svgMarkup ? (
+          <div
+            ref={graphicRef}
+            className={`lightbox__graphic${view.scale > 1 ? ' lightbox__graphic--zoomed' : ''}`}
+            style={graphicStyle}
+            aria-label={alt}
+            role="img"
+            dangerouslySetInnerHTML={{ __html: svgMarkup }}
+          />
+        ) : (
+          <img src={src} alt={alt} decoding="sync" draggable={false} style={graphicStyle} />
+        )}
       </div>
     </div>
   );
@@ -133,7 +188,7 @@ export default function ImageSlot({
             onClick={() => setOpen(true)}
             aria-label={`${label} 확대`}
           >
-            <img src={imageSrc} alt={label} loading="lazy" />
+            <img src={imageSrc} alt={label} />
           </button>
         ) : (
           <img src={imageSrc} alt={label} loading="lazy" />
