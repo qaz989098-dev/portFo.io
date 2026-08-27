@@ -4,7 +4,6 @@ import architectureRuntimeSvg from '../assets/diagrams/architecture-runtime.svg?
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 8;
-const CLICK_ZOOM = 1.7;
 
 const BUNDLED_SVG = {
   [`${import.meta.env.BASE_URL}assets/images/public-safety-map/architecture.svg`]: architectureSvg,
@@ -49,11 +48,12 @@ function DiagramLightbox({ src, alt, onClose }) {
   const stageRef = useRef(null);
   const graphicRef = useRef(null);
   const dragRef = useRef(null);
-  const didDragRef = useRef(false);
   const centeredRef = useRef(false);
+  const viewRef = useRef({ scale: 1, x: 0, y: 0 });
   const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
   const svgMarkup = useSvgMarkup(src);
   const vector = Boolean(svgMarkup);
+  viewRef.current = view;
 
   useLayoutEffect(() => {
     const stage = stageRef.current;
@@ -113,12 +113,11 @@ function DiagramLightbox({ src, alt, onClose }) {
     if (event.button !== 0) return;
     event.preventDefault();
     event.stopPropagation();
-    didDragRef.current = false;
     dragRef.current = {
       x: event.clientX,
       y: event.clientY,
-      originX: view.x,
-      originY: view.y,
+      originX: viewRef.current.x,
+      originY: viewRef.current.y,
     };
     event.currentTarget.setPointerCapture(event.pointerId);
   };
@@ -127,9 +126,6 @@ function DiagramLightbox({ src, alt, onClose }) {
     if (!dragRef.current) return;
     const dx = event.clientX - dragRef.current.x;
     const dy = event.clientY - dragRef.current.y;
-    if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
-      didDragRef.current = true;
-    }
     setView((prev) => ({
       ...prev,
       x: dragRef.current.originX + dx,
@@ -137,24 +133,8 @@ function DiagramLightbox({ src, alt, onClose }) {
     }));
   };
 
-  const handlePointerUp = (event) => {
-    const dragged = didDragRef.current;
+  const handlePointerUp = () => {
     dragRef.current = null;
-    if (dragged) return;
-
-    const stage = stageRef.current;
-    const graphic = graphicRef.current;
-    if (!stage || !graphic || !centeredRef.current) return;
-
-    const box = graphic.getBoundingClientRect();
-    const inside =
-      event.clientX >= box.left &&
-      event.clientX <= box.right &&
-      event.clientY >= box.top &&
-      event.clientY <= box.bottom;
-    if (!inside) return;
-
-    setView((prev) => zoomAt(prev, event.clientX, event.clientY, stage, CLICK_ZOOM));
   };
 
   const graphicStyle = {
@@ -162,7 +142,12 @@ function DiagramLightbox({ src, alt, onClose }) {
   };
 
   return (
-    <div className="lightbox" role="presentation">
+    <div
+      className="lightbox"
+      role="presentation"
+      onClick={(event) => event.stopPropagation()}
+      onMouseDown={(event) => event.stopPropagation()}
+    >
       <button
         type="button"
         className="lightbox__close"
@@ -175,7 +160,7 @@ function DiagramLightbox({ src, alt, onClose }) {
         ×
       </button>
       <p className="lightbox__hint">
-        클릭한 위치를 확대 · 드래그로 이동 · 휠로 확대/축소 · Esc로 닫기 · {Math.round(view.scale * 100)}%
+        휠로 확대/축소 · 드래그로 이동 · Esc로 닫기 · {Math.round(view.scale * 100)}%
       </p>
       <div
         ref={stageRef}
