@@ -226,11 +226,7 @@ export default function Home() {
         <section className="section" id="epilogue">
           <h2 className="section__title">Epilogue</h2>
           <div className="panel epilogue-panel">
-            <div className="epilogue-body">
-              {profile.epilogue.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
+            <p className="epilogue-panel__lead">포트폴리오를 마치며 남기는 글입니다.</p>
             <button
               type="button"
               className="epilogue-btn"
