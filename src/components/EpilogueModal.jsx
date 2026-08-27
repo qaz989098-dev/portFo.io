@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 export default function EpilogueModal({ open, published, onClose }) {
+  const ignoreClickRef = useRef(true);
   const paragraphs = Array.isArray(published)
     ? published.filter(Boolean)
     : published
@@ -10,6 +12,11 @@ export default function EpilogueModal({ open, published, onClose }) {
   useEffect(() => {
     if (!open) return undefined;
 
+    ignoreClickRef.current = true;
+    const allowClick = window.setTimeout(() => {
+      ignoreClickRef.current = false;
+    }, 250);
+
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') onClose();
     };
@@ -18,6 +25,7 @@ export default function EpilogueModal({ open, published, onClose }) {
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
+      window.clearTimeout(allowClick);
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
@@ -25,8 +33,15 @@ export default function EpilogueModal({ open, published, onClose }) {
 
   if (!open) return null;
 
-  return (
-    <div className="modal" role="presentation" onClick={onClose}>
+  return createPortal(
+    <div
+      className="modal"
+      role="presentation"
+      onClick={() => {
+        if (ignoreClickRef.current) return;
+        onClose();
+      }}
+    >
       <div
         className="modal__dialog modal__dialog--epilogue"
         role="dialog"
@@ -50,6 +65,7 @@ export default function EpilogueModal({ open, published, onClose }) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

@@ -18,6 +18,11 @@ export default function Footer() {
             {profile.phone}
           </a>
         ) : null}
+        {profile.epilogue?.length > 0 && (
+          <a className="footer__item" href="#epilogue">
+            에필로그
+          </a>
+        )}
         {profile.resume && (
           <a
             className="footer__item"
