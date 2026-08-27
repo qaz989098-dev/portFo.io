@@ -1,9 +1,15 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import architectureSvg from '../assets/diagrams/architecture.svg?raw';
+import architectureRuntimeSvg from '../assets/diagrams/architecture-runtime.svg?raw';
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 8;
 const CLICK_ZOOM = 1.7;
-const svgCache = new Map();
+
+const BUNDLED_SVG = {
+  [`${import.meta.env.BASE_URL}assets/images/public-safety-map/architecture.svg`]: architectureSvg,
+  [`${import.meta.env.BASE_URL}assets/images/public-safety-map/architecture-runtime.svg`]: architectureRuntimeSvg,
+};
 
 function isSvgSrc(src) {
   return /\.svg($|\?)/i.test(src);
@@ -13,43 +19,13 @@ function prepareSvg(text) {
   return text
     .replace(/<\?xml[\s\S]*?\?>/i, '')
     .replace(/<!DOCTYPE[\s\S]*?>/i, '')
-    .replace(/<svg\b([^>]*)>/i, (_, attrs) => {
-      const cleaned = String(attrs)
-        .replace(/\swidth="[^"]*"/i, '')
-        .replace(/\sheight="[^"]*"/i, '');
-      return `<svg${cleaned}>`;
-    })
     .trim();
 }
 
 function useSvgMarkup(src) {
-  const [markup, setMarkup] = useState(() => svgCache.get(src) || '');
-
-  useEffect(() => {
-    if (!isSvgSrc(src)) return undefined;
-    if (svgCache.has(src)) {
-      setMarkup(svgCache.get(src));
-      return undefined;
-    }
-
-    let cancelled = false;
-    fetch(src)
-      .then((response) => response.text())
-      .then((text) => {
-        const prepared = prepareSvg(text);
-        svgCache.set(src, prepared);
-        if (!cancelled) setMarkup(prepared);
-      })
-      .catch(() => {
-        if (!cancelled) setMarkup('');
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [src]);
-
-  return isSvgSrc(src) ? markup : '';
+  const bundled = BUNDLED_SVG[src] || BUNDLED_SVG[String(src).split('?')[0]];
+  const prepared = bundled ? prepareSvg(bundled) : '';
+  return isSvgSrc(src) ? prepared : '';
 }
 
 function zoomAround(prev, clientX, clientY, stage, factor) {
