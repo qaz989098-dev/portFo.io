@@ -4,6 +4,7 @@ import architectureRuntimeSvg from '../assets/diagrams/architecture-runtime.svg?
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 8;
+const DRAG_THRESHOLD = 6;
 
 const BUNDLED_SVG = {
   [`${import.meta.env.BASE_URL}assets/images/public-safety-map/architecture.svg`]: architectureSvg,
@@ -31,6 +32,14 @@ function useSvgMarkup(src) {
 
 function clampScale(value) {
   return Math.min(MAX_SCALE, Math.max(MIN_SCALE, value));
+}
+
+function fitView(stage, base) {
+  return {
+    scale: 1,
+    x: (stage.clientWidth - base.w) / 2,
+    y: (stage.clientHeight - base.h) / 2,
+  };
 }
 
 function zoomAt(prev, clientX, clientY, stage, factor) {
@@ -75,11 +84,7 @@ function DiagramLightbox({ src, alt, onClose }) {
       const h = svgH * next;
       fittedRef.current = true;
       setBase({ w, h });
-      setView({
-        scale: 1,
-        x: (stage.clientWidth - w) / 2,
-        y: (stage.clientHeight - h) / 2,
-      });
+      setView(fitView(stage, { w, h }));
       return true;
     };
 
@@ -127,6 +132,7 @@ function DiagramLightbox({ src, alt, onClose }) {
       y: event.clientY,
       originX: viewRef.current.x,
       originY: viewRef.current.y,
+      moved: false,
     };
     event.currentTarget.setPointerCapture(event.pointerId);
   };
@@ -134,18 +140,30 @@ function DiagramLightbox({ src, alt, onClose }) {
   const handlePointerMove = (event) => {
     const drag = dragRef.current;
     if (!drag) return;
+    const dx = event.clientX - drag.x;
+    const dy = event.clientY - drag.y;
+    if (!drag.moved) {
+      if (dx * dx + dy * dy < DRAG_THRESHOLD * DRAG_THRESHOLD) return;
+      drag.moved = true;
+    }
     setView((prev) => ({
       ...prev,
-      x: drag.originX + (event.clientX - drag.x),
-      y: drag.originY + (event.clientY - drag.y),
+      x: drag.originX + dx,
+      y: drag.originY + dy,
     }));
   };
 
   const handlePointerUp = (event) => {
-    if (dragRef.current && event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+    const drag = dragRef.current;
+    if (drag && event.currentTarget.hasPointerCapture?.(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
     dragRef.current = null;
+    if (!drag || drag.moved) return;
+    if (viewRef.current.scale <= 1) return;
+    const stage = stageRef.current;
+    if (!stage || base.w < 8) return;
+    setView(fitView(stage, base));
   };
 
   return (
@@ -167,15 +185,20 @@ function DiagramLightbox({ src, alt, onClose }) {
         ×
       </button>
       <p className="lightbox__hint">
-        휠로 확대/축소 · 드래그로 이동 · Esc로 닫기 · {Math.round(view.scale * 100)}%
+        휠로 확대/축소 · 드래그로 이동 · 클릭하면 확대 해제 · Esc로 닫기 · {Math.round(view.scale * 100)}%
       </p>
       <div
         ref={stageRef}
-        className="lightbox__stage"
+        className={`lightbox__stage${view.scale > 1 ? ' lightbox__stage--zoomed' : ''}`}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
+        onPointerCancel={(event) => {
+          if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+            event.currentTarget.releasePointerCapture(event.pointerId);
+          }
+          dragRef.current = null;
+        }}
       >
         <div
           ref={graphicRef}
