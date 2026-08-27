@@ -2,7 +2,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1120" width="1400" height="1120" role="img">
 
 <style>
-  text { font-family: Pretendard, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; }
+  text { font-family: Pretendard, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; text-rendering: geometricPrecision; }
 </style>
 
 <defs>

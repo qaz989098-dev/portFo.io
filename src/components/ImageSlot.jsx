@@ -2,46 +2,83 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 8;
+const CLICK_ZOOM = 1.7;
+const svgCache = new Map();
 
 function isSvgSrc(src) {
   return /\.svg($|\?)/i.test(src);
 }
 
-function DiagramLightbox({ src, alt, onClose }) {
-  const stageRef = useRef(null);
-  const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
-  const [svgMarkup, setSvgMarkup] = useState('');
-  const [fitWidth, setFitWidth] = useState(0);
-  const graphicRef = useRef(null);
-  const dragRef = useRef(null);
-  const didDragRef = useRef(false);
-  const fitWidthRef = useRef(0);
-  const vector = isSvgSrc(src);
-  fitWidthRef.current = fitWidth;
+function prepareSvg(text) {
+  return text
+    .replace(/<\?xml[\s\S]*?\?>/i, '')
+    .replace(/<!DOCTYPE[\s\S]*?>/i, '')
+    .replace(/<svg\b([^>]*)>/i, (_, attrs) => {
+      const cleaned = String(attrs)
+        .replace(/\swidth="[^"]*"/i, '')
+        .replace(/\sheight="[^"]*"/i, '');
+      return `<svg${cleaned}>`;
+    })
+    .trim();
+}
+
+function useSvgMarkup(src) {
+  const [markup, setMarkup] = useState(() => svgCache.get(src) || '');
 
   useEffect(() => {
-    if (!vector) return undefined;
-    let cancelled = false;
+    if (!isSvgSrc(src)) return undefined;
+    if (svgCache.has(src)) {
+      setMarkup(svgCache.get(src));
+      return undefined;
+    }
 
+    let cancelled = false;
     fetch(src)
       .then((response) => response.text())
       .then((text) => {
-        if (cancelled) return;
-        setSvgMarkup(
-          text
-            .replace(/<\?xml[\s\S]*?\?>/i, '')
-            .replace(/<!DOCTYPE[\s\S]*?>/i, '')
-            .trim(),
-        );
+        const prepared = prepareSvg(text);
+        svgCache.set(src, prepared);
+        if (!cancelled) setMarkup(prepared);
       })
       .catch(() => {
-        if (!cancelled) setSvgMarkup('');
+        if (!cancelled) setMarkup('');
       });
 
     return () => {
       cancelled = true;
     };
-  }, [src, vector]);
+  }, [src]);
+
+  return isSvgSrc(src) ? markup : '';
+}
+
+function zoomAround(prev, clientX, clientY, stage, factor) {
+  const rect = stage.getBoundingClientRect();
+  const cx = clientX - rect.left - rect.width / 2;
+  const cy = clientY - rect.top - rect.height / 2;
+  const nextScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, prev.scale * factor));
+  const applied = nextScale / prev.scale;
+  if (nextScale <= MIN_SCALE) {
+    return { scale: MIN_SCALE, x: 0, y: 0 };
+  }
+  return {
+    scale: nextScale,
+    x: prev.x + cx * (1 - applied),
+    y: prev.y + cy * (1 - applied),
+  };
+}
+
+function DiagramLightbox({ src, alt, onClose }) {
+  const stageRef = useRef(null);
+  const graphicRef = useRef(null);
+  const dragRef = useRef(null);
+  const didDragRef = useRef(false);
+  const fitWidthRef = useRef(0);
+  const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
+  const [fitWidth, setFitWidth] = useState(0);
+  const svgMarkup = useSvgMarkup(src);
+  const vector = Boolean(svgMarkup);
+  fitWidthRef.current = fitWidth;
 
   useLayoutEffect(() => {
     if (!vector || view.scale !== 1 || !graphicRef.current) return;
@@ -57,7 +94,6 @@ function DiagramLightbox({ src, alt, onClose }) {
     const handleWheel = (event) => {
       event.preventDefault();
       event.stopPropagation();
-
       const stage = stageRef.current;
       if (!stage) return;
       if (vector && !fitWidthRef.current) return;
@@ -65,24 +101,9 @@ function DiagramLightbox({ src, alt, onClose }) {
       let dy = event.deltaY;
       if (event.deltaMode === 1) dy *= 40;
       if (event.deltaMode === 2) dy *= 800;
-
-      const rect = stage.getBoundingClientRect();
-      const cx = event.clientX - rect.left - rect.width / 2;
-      const cy = event.clientY - rect.top - rect.height / 2;
       const factor = Math.exp(-dy * 0.0025);
 
-      setView((prev) => {
-        const nextScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, prev.scale * factor));
-        const applied = nextScale / prev.scale;
-        if (nextScale <= MIN_SCALE) {
-          return { scale: MIN_SCALE, x: 0, y: 0 };
-        }
-        return {
-          scale: nextScale,
-          x: prev.x + cx * (1 - applied),
-          y: prev.y + cy * (1 - applied),
-        };
-      });
+      setView((prev) => zoomAround(prev, event.clientX, event.clientY, stage, factor));
     };
 
     document.body.style.overflow = 'hidden';
@@ -94,11 +115,12 @@ function DiagramLightbox({ src, alt, onClose }) {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('wheel', handleWheel, { capture: true });
     };
-  }, [onClose]);
+  }, [onClose, vector]);
 
   const handlePointerDown = (event) => {
     if (event.button !== 0) return;
     event.preventDefault();
+    event.stopPropagation();
     didDragRef.current = false;
     dragRef.current = {
       x: event.clientX,
@@ -123,30 +145,32 @@ function DiagramLightbox({ src, alt, onClose }) {
     }));
   };
 
-  const handlePointerUp = () => {
+  const handlePointerUp = (event) => {
+    const dragged = didDragRef.current;
     dragRef.current = null;
+    if (dragged) return;
+
+    const stage = stageRef.current;
+    const graphic = graphicRef.current;
+    if (!stage || !graphic) return;
+
+    const box = graphic.getBoundingClientRect();
+    const inside =
+      event.clientX >= box.left &&
+      event.clientX <= box.right &&
+      event.clientY >= box.top &&
+      event.clientY <= box.bottom;
+    if (!inside) return;
+
+    setView((prev) => zoomAround(prev, event.clientX, event.clientY, stage, CLICK_ZOOM));
   };
 
-  const handleStageClick = (event) => {
-    event.stopPropagation();
-    if (didDragRef.current) return;
-    if (event.target === event.currentTarget) onClose();
+  const graphicStyle = {
+    width: fitWidth && view.scale !== 1 ? `${fitWidth * view.scale}px` : undefined,
+    maxWidth: view.scale > 1 ? 'none' : undefined,
+    maxHeight: view.scale > 1 ? 'none' : undefined,
+    transform: `translate(${view.x}px, ${view.y}px)`,
   };
-
-  const handleGraphicClick = (event) => {
-    event.stopPropagation();
-  };
-
-  const graphicStyle = vector
-    ? {
-        width: fitWidth && view.scale !== 1 ? `${fitWidth * view.scale}px` : undefined,
-        maxWidth: view.scale > 1 ? 'none' : undefined,
-        maxHeight: view.scale > 1 ? 'none' : undefined,
-        transform: `translate(${view.x}px, ${view.y}px)`,
-      }
-    : {
-        transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})`,
-      };
 
   return (
     <div className="lightbox" role="presentation">
@@ -161,34 +185,36 @@ function DiagramLightbox({ src, alt, onClose }) {
       >
         ×
       </button>
-      <p className="lightbox__hint">스크롤 휠로 확대 · 드래그로 이동 · Esc로 닫기 · {Math.round(view.scale * 100)}%</p>
+      <p className="lightbox__hint">
+        클릭한 위치를 확대 · 드래그로 이동 · 휠로 확대/축소 · Esc로 닫기 · {Math.round(view.scale * 100)}%
+      </p>
       <div
         ref={stageRef}
         className={`lightbox__stage${view.scale > 1 ? ' lightbox__stage--zoomed' : ''}`}
-        onClick={handleStageClick}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
+        onPointerCancel={() => {
+          dragRef.current = null;
+        }}
       >
-        {vector && svgMarkup ? (
+        {vector ? (
           <div
             ref={graphicRef}
             className={`lightbox__graphic${view.scale > 1 ? ' lightbox__graphic--zoomed' : ''}`}
             style={graphicStyle}
             aria-label={alt}
             role="img"
-            onClick={handleGraphicClick}
             dangerouslySetInnerHTML={{ __html: svgMarkup }}
           />
         ) : (
           <img
+            ref={graphicRef}
             src={src}
             alt={alt}
             decoding="sync"
             draggable={false}
             style={graphicStyle}
-            onClick={handleGraphicClick}
           />
         )}
       </div>
@@ -205,9 +231,11 @@ export default function ImageSlot({
   zoomable = false,
 }) {
   const [open, setOpen] = useState(false);
+  const svgMarkup = useSvgMarkup(imageSrc || '');
   const label = caption || '스크린샷 (추가 예정)';
   const initial = (projectId || 'PF').slice(0, 2).toUpperCase();
   const canZoom = Boolean(imageSrc && (zoomable || variant === 'diagram'));
+  const showVector = Boolean(canZoom && svgMarkup);
 
   if (imageSrc) {
     return (
@@ -219,7 +247,15 @@ export default function ImageSlot({
             onClick={() => setOpen(true)}
             aria-label={`${label} 확대`}
           >
-            <img src={imageSrc} alt={label} />
+            {showVector ? (
+              <span
+                className="image-slot__vector"
+                aria-hidden="true"
+                dangerouslySetInnerHTML={{ __html: svgMarkup }}
+              />
+            ) : (
+              <img src={imageSrc} alt={label} />
+            )}
           </button>
         ) : (
           <img src={imageSrc} alt={label} loading="lazy" />

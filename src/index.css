@@ -830,14 +830,28 @@ img {
 }
 
 .image-slot--diagram .image-slot__zoom img,
+.image-slot--diagram .image-slot__vector,
 .image-slot--diagram > img {
   width: 100%;
   height: auto;
+  display: block;
   object-fit: contain;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  image-rendering: auto;
+}
+
+.image-slot__vector {
+  pointer-events: none;
+}
+
+.image-slot__vector svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 0;
+  text-rendering: geometricPrecision;
+  shape-rendering: geometricPrecision;
 }
 
 .image-slot__zoom {
@@ -864,7 +878,7 @@ img {
   justify-content: center;
   padding: 3rem 1.25rem 1.25rem;
   background: rgba(15, 23, 42, 0.88);
-  cursor: zoom-out;
+  cursor: default;
 }
 
 .lightbox__hint {
@@ -911,17 +925,18 @@ img {
   cursor: inherit;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
   transform-origin: center center;
-  will-change: transform;
   user-select: none;
 }
 
 .lightbox__graphic svg {
   display: block;
-  width: auto;
+  width: 100%;
   height: auto;
   max-width: min(96vw, 1600px);
   max-height: calc(100vh - 5rem);
   pointer-events: none;
+  text-rendering: geometricPrecision;
+  shape-rendering: geometricPrecision;
 }
 
 .lightbox__graphic--zoomed svg {
