@@ -28,19 +28,20 @@ function useSvgMarkup(src) {
   return isSvgSrc(src) ? prepared : '';
 }
 
-function zoomAround(prev, clientX, clientY, stage, factor) {
+function clampScale(value) {
+  return Math.min(MAX_SCALE, Math.max(MIN_SCALE, value));
+}
+
+function zoomAt(prev, clientX, clientY, stage, factor) {
   const rect = stage.getBoundingClientRect();
-  const cx = clientX - rect.left - rect.width / 2;
-  const cy = clientY - rect.top - rect.height / 2;
-  const nextScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, prev.scale * factor));
-  const applied = nextScale / prev.scale;
-  if (nextScale <= MIN_SCALE) {
-    return { scale: MIN_SCALE, x: 0, y: 0 };
-  }
+  const mx = clientX - rect.left;
+  const my = clientY - rect.top;
+  const nextScale = clampScale(prev.scale * factor);
+  const ratio = nextScale / prev.scale;
   return {
     scale: nextScale,
-    x: prev.x + cx * (1 - applied),
-    y: prev.y + cy * (1 - applied),
+    x: mx - (mx - prev.x) * ratio,
+    y: my - (my - prev.y) * ratio,
   };
 }
 
@@ -49,18 +50,34 @@ function DiagramLightbox({ src, alt, onClose }) {
   const graphicRef = useRef(null);
   const dragRef = useRef(null);
   const didDragRef = useRef(false);
-  const fitWidthRef = useRef(0);
+  const centeredRef = useRef(false);
   const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
-  const [fitWidth, setFitWidth] = useState(0);
   const svgMarkup = useSvgMarkup(src);
   const vector = Boolean(svgMarkup);
-  fitWidthRef.current = fitWidth;
 
   useLayoutEffect(() => {
-    if (!vector || view.scale !== 1 || !graphicRef.current) return;
-    const width = graphicRef.current.getBoundingClientRect().width;
-    if (width > 0) setFitWidth(width);
-  }, [svgMarkup, vector, view.scale]);
+    const stage = stageRef.current;
+    const graphic = graphicRef.current;
+    if (!stage || !graphic) return undefined;
+
+    const center = () => {
+      if (centeredRef.current) return true;
+      const gw = graphic.offsetWidth;
+      const gh = graphic.offsetHeight;
+      if (gw < 8 || gh < 8) return false;
+      centeredRef.current = true;
+      setView({
+        scale: 1,
+        x: (stage.clientWidth - gw) / 2,
+        y: (stage.clientHeight - gh) / 2,
+      });
+      return true;
+    };
+
+    if (center()) return undefined;
+    const frame = window.requestAnimationFrame(center);
+    return () => window.cancelAnimationFrame(frame);
+  }, [svgMarkup, vector]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -71,15 +88,14 @@ function DiagramLightbox({ src, alt, onClose }) {
       event.preventDefault();
       event.stopPropagation();
       const stage = stageRef.current;
-      if (!stage) return;
-      if (vector && !fitWidthRef.current) return;
+      if (!stage || !centeredRef.current) return;
 
       let dy = event.deltaY;
-      if (event.deltaMode === 1) dy *= 40;
-      if (event.deltaMode === 2) dy *= 800;
-      const factor = Math.exp(-dy * 0.0025);
+      if (event.deltaMode === 1) dy *= 16;
+      if (event.deltaMode === 2) dy *= stage.clientHeight;
+      const factor = Math.exp(-dy * 0.0018);
 
-      setView((prev) => zoomAround(prev, event.clientX, event.clientY, stage, factor));
+      setView((prev) => zoomAt(prev, event.clientX, event.clientY, stage, factor));
     };
 
     document.body.style.overflow = 'hidden';
@@ -91,7 +107,7 @@ function DiagramLightbox({ src, alt, onClose }) {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('wheel', handleWheel, { capture: true });
     };
-  }, [onClose, vector]);
+  }, [onClose]);
 
   const handlePointerDown = (event) => {
     if (event.button !== 0) return;
@@ -128,7 +144,7 @@ function DiagramLightbox({ src, alt, onClose }) {
 
     const stage = stageRef.current;
     const graphic = graphicRef.current;
-    if (!stage || !graphic) return;
+    if (!stage || !graphic || !centeredRef.current) return;
 
     const box = graphic.getBoundingClientRect();
     const inside =
@@ -138,14 +154,11 @@ function DiagramLightbox({ src, alt, onClose }) {
       event.clientY <= box.bottom;
     if (!inside) return;
 
-    setView((prev) => zoomAround(prev, event.clientX, event.clientY, stage, CLICK_ZOOM));
+    setView((prev) => zoomAt(prev, event.clientX, event.clientY, stage, CLICK_ZOOM));
   };
 
   const graphicStyle = {
-    width: fitWidth && view.scale !== 1 ? `${fitWidth * view.scale}px` : undefined,
-    maxWidth: view.scale > 1 ? 'none' : undefined,
-    maxHeight: view.scale > 1 ? 'none' : undefined,
-    transform: `translate(${view.x}px, ${view.y}px)`,
+    transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})`,
   };
 
   return (
@@ -177,7 +190,7 @@ function DiagramLightbox({ src, alt, onClose }) {
         {vector ? (
           <div
             ref={graphicRef}
-            className={`lightbox__graphic${view.scale > 1 ? ' lightbox__graphic--zoomed' : ''}`}
+            className="lightbox__graphic"
             style={graphicStyle}
             aria-label={alt}
             role="img"
