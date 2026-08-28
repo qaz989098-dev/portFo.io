@@ -459,29 +459,7 @@ export const projects = [
     reflection:
       '만든 일을 말로만 적지 않고, 제가 배포한 화면에서 바로 보여 주는 편이 맞다고 생각했습니다. 방문자가 막히는 지점을 고치며 배포를 반복했습니다.',
     coverSrc: '/portFo.io/assets/images/portfolio-site/cover.png',
-    coverCaption: '소개 · 이력서',
-    gallery: [
-      {
-        slot: 'screenshot-1',
-        caption: 'Education',
-        src: '/portFo.io/assets/images/portfolio-site/01-education.png',
-      },
-      {
-        slot: 'screenshot-2',
-        caption: 'Skills',
-        src: '/portFo.io/assets/images/portfolio-site/02-skills.png',
-      },
-      {
-        slot: 'screenshot-3',
-        caption: '프로젝트 상세',
-        src: '/portFo.io/assets/images/portfolio-site/03-detail.png',
-      },
-      {
-        slot: 'screenshot-4',
-        caption: '에필로그',
-        src: '/portFo.io/assets/images/portfolio-site/04-epilogue.png',
-      },
-    ],
+    coverCaption: 'PORTFOLIO',
   },
 ];
 
