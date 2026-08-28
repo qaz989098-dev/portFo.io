@@ -1,6 +1,6 @@
 export const profile = {
   name: '박상우',
-  role: 'AI를 향해 가는 풀스택 개발자',
+  role: '웹·앱을 만드는 풀스택 개발자',
   email: 'qaz9890@naver.com',
   phone: '010-5373-9174',
   birthDate: '1992.04.03',
@@ -21,9 +21,9 @@ export const profile = {
     '어떤 시련도 이겨낸 불굴의 의지로, 산업 현장과 서비스에 실제 가치를 더하는 끈기 있는 AI 엔지니어로 성장하겠습니다.',
   ],
   intro: [
-    '웹·앱을 함께 다루는 풀스택을 익히며, AI 개발을 목표로 공부하고 있습니다. 대구 수성알파시티 실무형 AI·SW 인재육성 Lab에서 팀으로 서비스를 만들며, 화면부터 API와 데이터까지 한 제품으로 붙이는 일을 했습니다.',
-    '팀 프로젝트에서는 Flutter와 Next.js로 화면을 만들고, Express·Prisma·MariaDB로 API와 데이터를 다뤘습니다. 지도, 푸시 알림, 실시간 기능도 연동해 보았습니다. 입사 후 풀스택 업무에 바로 기여하고 싶습니다.',
-    'AI의 세계는 방대하며 배움에는 끝이 없습니다. 항상 배우는 자세로 끊임없이 노력하며, 맡은 업무에 최선을 다하겠습니다.',
+    '웹·앱과 API를 한 제품으로 붙이는 풀스택을 익히고 있습니다. 대구 수성알파시티 실무형 AI·SW 인재육성 Lab에서 3조 SAFETY와 함께, 2026.07.22부터 09.01까지 약 6주 동안 공공안전지도를 만들었습니다.',
+    '팀에서는 Flutter와 Next.js로 화면을 만들고, Express·Prisma·MariaDB로 API와 데이터를 다뤘습니다. 입사 후 풀스택 업무에 바로 기여하고 싶습니다.',
+    'AI는 앞으로 깊이를 쌓고 싶은 방향입니다. 지금은 맡은 제품을 끝까지 책임지는 개발자로 일하겠습니다.',
   ],
   trainings: [
     {
@@ -61,6 +61,7 @@ export const profile = {
   learningSkills: {
     context: '고도화',
     items: ['LLM 애플리케이션', '학습·추론 파이프라인'],
+    note: '아직 실무에 쓰는 기술이 아닙니다. 수업과 개인 학습으로 익히는 중입니다.',
   },
 };
 
@@ -365,6 +366,7 @@ export const projects = [
       'Data — 공공데이터 전처리, 시설군 가중치, 참고용 ML(RandomForest), 제보 사진 모자이크(YuNet)',
     ],
     coverSrc: '/portFo.io/assets/images/public-safety-map/cover.png',
+    coverCaption: 'Web · 안전등급 격자 지도',
     gallery: [
       {
         slot: 'screenshot-1',
@@ -387,6 +389,75 @@ export const projects = [
         src: '/portFo.io/assets/images/public-safety-map/03-admin.png',
       },
     ],
+  },
+  {
+    id: 'portfolio-site',
+    title: '포트폴리오 사이트',
+    subtitle: '이력서와 프로젝트를 한곳에 모아 직접 배포한 개인 사이트',
+    period: '2026.08 — 현재',
+    type: 'solo',
+    badge: '개인',
+    enTitle: 'PORTFOLIO SITE',
+    teamLabel: 'SOLO',
+    members: ['박상우'],
+    summary:
+      '공공안전지도와 이력서를 한 사이트에서 보여 주기 위해 React로 만들었습니다. GitHub Pages에 올려 두었고, 이 페이지가 시연입니다.',
+    stack: ['React', 'Vite', 'React Router', 'GitHub Pages', 'GitHub Actions'],
+    github: 'https://github.com/qaz989098-dev/portFo.io',
+    links: [
+      {
+        label: '사이트 보기',
+        href: 'https://qaz989098-dev.github.io/portFo.io/',
+      },
+      {
+        label: 'GitHub',
+        href: 'https://github.com/qaz989098-dev/portFo.io',
+      },
+    ],
+    myWork: [
+      {
+        title: '구성과 배포',
+        body: '소개, 교육, 기술, 프로젝트, 에필로그를 나누고 GitHub Actions로 Pages에 올렸습니다.',
+      },
+      {
+        title: '프로젝트 상세',
+        body: '공공안전지도는 팀 기능과 내가 붙인 일을 구분해 적었습니다. 아키텍처는 SVG로 두어 확대해도 선이 살게 했습니다.',
+      },
+      {
+        title: '라이트박스',
+        body: '휠로 확대하고 드래그로 옮기며, 제자리 클릭은 확대를 풀도록 맞췄습니다.',
+      },
+    ],
+    overview: {
+      intro:
+        '채용 담당이 팀 프로젝트만 보지 않고, 제가 혼자 만들고 배포한 화면도 볼 수 있게 이 사이트를 만들었습니다. 지금 보고 계신 페이지가 결과물입니다.',
+    },
+    roleNote: '혼자 기획하고 만들고 배포했습니다.',
+    role: [
+      'React · Vite로 화면 구성',
+      '프로젝트 상세와 이력서 PDF 연결',
+      'GitHub Pages · GitHub Actions 배포',
+    ],
+    troubleshooting: [
+      {
+        no: '01',
+        tag: 'Zoom',
+        title: '확대 후 드래그하면 백지',
+        problem: '아키텍처 그림을 확대한 뒤 조금만 내려도 화면이 하얘졌습니다.',
+        cause: 'CSS scale로 레이어를 키운 뒤 움직이면, 브라우저가 그 큰 조각을 그리다가 비웠습니다.',
+        fix: '확대는 너비로, 이동은 위치로 바꿔 그림이 화면 안에 남게 했습니다.',
+      },
+      {
+        no: '02',
+        tag: 'Pointer',
+        title: '클릭과 드래그가 섞임',
+        problem: '그림을 잡으려다 확대가 풀리거나, 창이 닫히는 것처럼 보였습니다.',
+        cause: '같은 누르기 동작에 이동과 클릭을 구별하지 않았습니다.',
+        fix: '조금 움직이면 드래그로 보고, 제자리 클릭일 때만 확대를 풀었습니다. 닫기는 ×와 Esc만 됩니다.',
+      },
+    ],
+    reflection:
+      '만든 일을 말로만 적지 않고, 제가 배포한 화면에서 바로 보여 주는 편이 맞다고 생각했습니다. 방문자가 막히는 지점을 고치며 배포를 반복했습니다.',
   },
 ];
 
