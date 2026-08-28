@@ -90,7 +90,12 @@ export const projects = [
       'FCM',
     ],
     github: 'https://github.com/qaz989098-dev/public_safety_map_app',
+    repoNote: '운영 중인 지도 웹 주소는 따로 없습니다. 화면 시연은 실제 웹·앱 캡처입니다.',
     links: [
+      {
+        label: '화면 시연',
+        href: '/portFo.io/demo/public-safety-map.html',
+      },
       {
         label: 'App GitHub',
         href: 'https://github.com/qaz989098-dev/public_safety_map_app',
