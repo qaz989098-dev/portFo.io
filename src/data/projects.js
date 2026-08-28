@@ -1,6 +1,6 @@
 export const profile = {
   name: '박상우',
-  role: '인공지능 AI의 지능을 현실의 경험으로 실현하는 개발자',
+  role: 'AI를 향해 가는 풀스택 개발자',
   email: 'qaz9890@naver.com',
   phone: '010-5373-9174',
   birthDate: '1992.04.03',
