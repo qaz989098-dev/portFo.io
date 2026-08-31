@@ -34,7 +34,7 @@ export const profile = {
       status: '진행 중',
       statusType: 'ongoing',
       summary:
-        '대구 수성구·수성알파시티의 경북대학교 AI융합캠퍼스에서 진행 중인 실무형 과정입니다. Python·웹·앱 실습과 멘토링을 받으며, 3조 SAFETY에서 공공안전지도(Web / App)를 만들고 있습니다.',
+        '대구 수성구·수성알파시티의 경북대학교 AI융합캠퍼스에서 진행 중인 실무형 과정입니다. Python·웹·앱 실습과 멘토링을 받으며, 3조 SAFETY에서 공공안전지도(Web / App)를 만들었습니다.',
       detail: {
         trainingInfo: [
           { label: '과정명', value: '실무형 AI·SW 인재육성 Lab' },
