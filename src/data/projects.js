@@ -14,7 +14,7 @@ export const profile = {
     downloadName: '박상우_이력서.pdf',
   },
   education: '',
-  period: '2026.06 ~ 2026.10',
+  period: '2026.06 — 2026.10',
   epilogue: [
     '한때 생사의 갈림길에서 삶이 멈추는 시련을 겪었지만, 그 고난을 견뎌내며 한층 더 단단하고 내면이 강한 사람으로 거듭났습니다. 또한 그 과정에서 멈춰 있던 순간을 다시 움직이게 만드는 \'작은 신호와 데이터\'의 소중함을 누구보다 깊이 깨달았습니다.',
     '현장의 미세한 이상 징후를 포기하지 않고 끝까지 추적하듯, 데이터 하나하나에 진심을 다하겠습니다.',
@@ -23,7 +23,7 @@ export const profile = {
   intro: [
     '웹·앱과 API를 한 제품으로 붙이는 풀스택을 익히고 있습니다. 대구 수성알파시티 실무형 AI·SW 인재육성 Lab에서 3조 SAFETY와 함께, 2026.07.22부터 09.01까지 약 6주 동안 공공안전지도를 만들었습니다.',
     '팀에서는 Flutter와 Next.js로 화면을 만들고, Express·Prisma·MariaDB로 API와 데이터를 다뤘습니다. 입사 후 풀스택 업무에 바로 기여하고 싶습니다.',
-    'AI의 세계는 방대합니다. 방대함 속에서도 작은 데이터 하나 놓치지 않고 열정적이고 끈기 있는 엔지니어가 되겠습니다.',
+    'AI의 세계는 방대합니다. 방대함 속에서도 작은 데이터 하나 놓치지 않고 열정적이고 끈기 있는 풀스택 개발자가 되겠습니다.',
   ],
   trainings: [
     {
@@ -395,6 +395,11 @@ export const projects = [
         slot: 'screenshot-4',
         caption: 'App · 안내 시작 · 경로 미리보기',
         src: '/portFo.io/assets/images/public-safety-map/03-nav.png',
+      },
+      {
+        slot: 'screenshot-5',
+        caption: 'App · 제보와 사고 마커',
+        src: '/portFo.io/assets/images/public-safety-map/05-panel.png',
       },
     ],
   },
