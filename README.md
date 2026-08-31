@@ -1,7 +1,7 @@
 # pf
 
 박상우 개발자 포트폴리오 (React + Vite)  
-SAFEY(공공안전지도) Flutter 보행 네비게이션 UX 작업 정리
+공공안전지도(3조 SAFETY) 팀 프로젝트 정리
 
 ## 로컬 실행
 
@@ -9,6 +9,8 @@ SAFEY(공공안전지도) Flutter 보행 네비게이션 UX 작업 정리
 npm install
 npm run dev
 ```
+
+접속: `http://localhost:5173/portFo.io/`
 
 ## GitHub Pages 배포
 
@@ -18,15 +20,17 @@ npm run dev
 3. `main` push 후 workflow가 `dist`를 배포
 4. 접속 URL: `https://qaz989098-dev.github.io/portFo.io/`
 
+화면 시연: `https://qaz989098-dev.github.io/portFo.io/demo/public-safety-map.html`
+
 ## 이미지 추가
 
 1. `public/assets/images/public-safety-map/` 에 스크린샷 저장  
-   예: `cover.png`, `01-web-grid.png`, `02-app-report.png`, …
-2. `src/data/projects.js` 에서 `coverSrc`와 `gallery` 항목의 `src` 주석을 해제하고 경로를 맞춥니다.
+   예: `cover.png`, `01-map.png`, `02-app.png`, `03-nav.png`, `05-panel.png`
+2. `src/data/projects.js` 에서 `coverSrc`와 `gallery` 항목의 `src`를 맞춥니다.
 
 ```js
 coverSrc: '/portFo.io/assets/images/public-safety-map/cover.png',
-src: '/portFo.io/assets/images/public-safety-map/01-web-grid.png',
+src: '/portFo.io/assets/images/public-safety-map/01-map.png',
 ```
 
 프로필 사진은 `public/assets/images/profile/photo.png` 에 두면 됩니다.

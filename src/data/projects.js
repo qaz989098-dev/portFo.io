@@ -18,12 +18,12 @@ export const profile = {
   epilogue: [
     '한때 생사의 갈림길에서 삶이 멈추는 시련을 겪었지만, 그 고난을 견뎌내며 한층 더 단단하고 내면이 강한 사람으로 거듭났습니다. 또한 그 과정에서 멈춰 있던 순간을 다시 움직이게 만드는 \'작은 신호와 데이터\'의 소중함을 누구보다 깊이 깨달았습니다.',
     '현장의 미세한 이상 징후를 포기하지 않고 끝까지 추적하듯, 데이터 하나하나에 진심을 다하겠습니다.',
-    '어떤 시련도 이겨낸 불굴의 의지로, 산업 현장과 서비스에 실제 가치를 더하는 끈기 있는 AI 엔지니어로 성장하겠습니다.',
+    '어떤 시련도 이겨낸 불굴의 의지로, 산업 현장과 서비스에 실제 가치를 더하는 끈기 있는 풀스택 개발자로 성장하겠습니다.',
   ],
   intro: [
     '웹·앱과 API를 한 제품으로 붙이는 풀스택을 익히고 있습니다. 대구 수성알파시티 실무형 AI·SW 인재육성 Lab에서 3조 SAFETY와 함께, 2026.07.22부터 09.01까지 약 6주 동안 공공안전지도를 만들었습니다.',
     '팀에서는 Flutter와 Next.js로 화면을 만들고, Express·Prisma·MariaDB로 API와 데이터를 다뤘습니다. 입사 후 풀스택 업무에 바로 기여하고 싶습니다.',
-    'AI의 세계는 방대합니다. 방대함 속에서도 작은 데이터 하나 놓치지 않고 열정적이고 끈기있는 엔지니어가 되겠습니다.',
+    'AI의 세계는 방대합니다. 방대함 속에서도 작은 데이터 하나 놓치지 않고 열정적이고 끈기 있는 엔지니어가 되겠습니다.',
   ],
   trainings: [
     {
@@ -52,10 +52,10 @@ export const profile = {
     { label: 'App', items: ['Flutter', 'FCM', 'SQLite'] },
     { label: 'Web', items: ['Next.js', 'React', 'TypeScript', 'Zustand'] },
     { label: 'Backend', items: ['Node.js', 'Express', 'Prisma', 'JWT', 'Session', 'node-cron'] },
-    { label: 'Realtime', items: ['Supabase', 'PostgreSQL', 'Vercel'] },
+    { label: 'Realtime', items: ['Supabase', 'PostgreSQL'] },
     { label: 'Database', items: ['MariaDB'] },
     { label: 'Data · AI', items: ['Python', 'pandas', 'NumPy', 'scikit-learn', 'OpenCV'] },
-    { label: 'Tools', items: ['GitHub', 'Firebase'] },
+    { label: 'Tools', items: ['GitHub', 'Firebase', 'Vercel'] },
   ],
   skillsNote: '공공안전지도 팀에서 사용한 스택입니다. 제가 깊게 붙인 일은 프로젝트 상세에 적어 두었습니다.',
   learningSkills: {
@@ -68,7 +68,7 @@ export const profile = {
 export const projects = [
   {
     id: 'public-safety-map',
-    aliases: ['safey-nav'],
+    aliases: ['safety-nav', 'safey-nav'],
     title: '공공안전지도',
     subtitle: '흩어져 있던 치안 인프라를 격자로 통합하고, 돌발 상황을 실시간으로 알려 주는 시민 참여형 안전 지도',
     period: '2026.07.22 — 2026.09.01',
@@ -90,11 +90,14 @@ export const projects = [
       'FCM',
     ],
     github: 'https://github.com/qaz989098-dev/public_safety_map_app',
-    repoNote: '운영 중인 지도 웹 주소는 따로 없습니다. 화면 시연은 실제 웹·앱 캡처입니다.',
     links: [
       {
         label: '화면 시연',
         href: '/portFo.io/demo/public-safety-map.html',
+      },
+      {
+        label: 'PPT',
+        href: '/portFo.io/demo/public-safety-map-ppt.html',
       },
       {
         label: 'App GitHub',
@@ -190,7 +193,7 @@ export const projects = [
       { name: '체감안전도 피드백', desc: '격자별 태그 · 한 줄 평 작성', web: false, app: true },
       { name: '계정 · 마이페이지', desc: '인증 · 내 활동 관리', web: true, app: true },
       { name: '관리자 콘솔', desc: '제보 · 피드백 · 도시정보 · 데이터 관리', web: true, app: false },
-      { name: '알림 · 길안내 · 오프라인', desc: '근접 알림 · TMAP 경로 · SQLite 로컬', web: false, app: true },
+      { name: '알림 · 길안내 · 로컬 캐시', desc: '근접 알림 · TMAP 경로 · SQLite 격자·인프라 캐시', web: false, app: true },
     ],
     appCore: [
       { code: 'TAG', title: '격자별 피드백 태그', body: '격자를 선택해 태그와 한 줄 평을 남기면 그 지역의 체감 안전도가 지도에 반영됩니다.' },
@@ -304,7 +307,7 @@ export const projects = [
         { name: 'tag', fields: 'feedback_tag' },
       ],
       dbNote:
-        '도메인 DB는 MariaDB이고 Prisma로 11개 테이블을 관리합니다. user를 중심으로 report·feedback·device_tokens를 연결하고, grid에 infrastructures를 붙입니다. 제보는 expire_at·is_active로 만료와 표시를 다룹니다. 채팅 데이터는 이 DB가 아니라 Supabase PostgreSQL에 있습니다. App은 격자·인프라를 SQLite에 캐시합니다.',
+        '도메인 DB는 MariaDB이고 Prisma로 아래 테이블을 관리합니다. user를 중심으로 report·feedback·device_tokens를 연결하고, grid에 infrastructures를 붙입니다. 제보는 expire_at·is_active로 만료와 표시를 다룹니다. 채팅 데이터는 이 DB가 아니라 Supabase PostgreSQL에 있습니다. App은 격자·인프라를 SQLite에 캐시합니다.',
     },
     features: {
       common: [
@@ -391,7 +394,7 @@ export const projects = [
       {
         slot: 'screenshot-4',
         caption: 'App · 안내 시작 · 경로 미리보기',
-        src: '/portFo.io/assets/images/public-safety-map/03-admin.png',
+        src: '/portFo.io/assets/images/public-safety-map/03-nav.png',
       },
     ],
   },

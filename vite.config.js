@@ -5,4 +5,9 @@ export default defineConfig({
   plugins: [react()],
   // GitHub Pages: https://qaz989098-dev.github.io/portFo.io/
   base: '/portFo.io/',
+  server: {
+    watch: {
+      ignored: ['**/public/assets/deck/**'],
+    },
+  },
 });

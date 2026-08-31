@@ -76,7 +76,7 @@
 <rect x="1158.0" y="56.0" width="300.0" height="100.0" rx="10" fill="#fff" stroke="#7c3aed" stroke-width="1.6"/>
 <text x="1308.0" y="88.0" font-size="14" font-weight="800" fill="#5b21b6" text-anchor="middle" font-family="Pretendard, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif">KOROAD 공공데이터</text>
 <text x="1308.0" y="110.0" font-size="12" font-weight="500" fill="#4b5563" text-anchor="middle" font-family="Pretendard, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif">사고다발구역 · 도로교통공단</text>
-<text x="1308.0" y="130.0" font-size="11" font-weight="500" fill="#6b7280" text-anchor="middle" font-family="Pretendard, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif">보행자 · 자전거 · 이륜차 · 스쿨존</text>
+<text x="1308.0" y="130.0" font-size="11" font-weight="500" fill="#6b7280" text-anchor="middle" font-family="Pretendard, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif">보행자 · 자전거 · 이륜차 · 어린이보호구역</text>
 <line x1="1158.0" y1="106.0" x2="1104.0" y2="106.0" stroke="#111827" stroke-width="2" marker-end="url(#rt-arrow)"/>
 <rect x="1158.0" y="188.0" width="300.0" height="100.0" rx="10" fill="#fff" stroke="#dc2626" stroke-width="1.6"/>
 <text x="1308.0" y="220.0" font-size="14" font-weight="800" fill="#b91c1c" text-anchor="middle" font-family="Pretendard, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif">Firebase Cloud Messaging</text>

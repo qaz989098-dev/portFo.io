@@ -1,5 +1,7 @@
 import { profile } from '../data/projects';
 
+const EPILOGUE_HREF = `${import.meta.env.BASE_URL}#epilogue`;
+
 export default function Footer() {
   return (
     <footer className="footer">
@@ -19,7 +21,7 @@ export default function Footer() {
           </a>
         ) : null}
         {profile.epilogue?.length > 0 && (
-          <a className="footer__item" href="#epilogue">
+          <a className="footer__item" href={EPILOGUE_HREF}>
             에필로그
           </a>
         )}

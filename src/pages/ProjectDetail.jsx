@@ -5,11 +5,14 @@ import SideNav from '../components/SideNav';
 import { getProjectById } from '../data/projects';
 
 const DECK_CONTENTS = [
+  { no: 'WORK', title: '내가 한 일', href: 'mine' },
   { no: 'Ⅰ', title: '기존 서비스의 문제점', href: 'problem' },
   { no: 'Ⅱ', title: '프로젝트 개요', href: 'overview' },
+  { no: 'ROLE', title: '팀 기능', href: 'role' },
   { no: 'Ⅲ', title: '활용 데이터', href: 'data' },
   { no: 'Ⅳ', title: '아키텍처', href: 'architecture' },
   { no: 'Ⅴ', title: '기능 소개', href: 'features' },
+  { no: 'SCREEN', title: '화면', href: 'screens' },
   { no: 'Ⅵ', title: '트러블슈팅', href: 'troubleshooting' },
   { no: 'Ⅶ', title: '느낀점', href: 'reflection' },
 ];
@@ -24,7 +27,7 @@ function navSections(project) {
     sections.push({ id: 'problem', label: isDeck ? 'Ⅰ 문제점' : '문제점' });
   }
   if (project.overview) sections.push({ id: 'overview', label: isDeck ? 'Ⅱ 개요' : '개요' });
-  if (project.role?.length) sections.push({ id: 'role', label: '담당' });
+  if (project.role?.length) sections.push({ id: 'role', label: isDeck ? '팀 기능' : '담당' });
   if (project.data) sections.push({ id: 'data', label: isDeck ? 'Ⅲ 데이터' : '데이터' });
   if (project.architecture) sections.push({ id: 'architecture', label: isDeck ? 'Ⅳ 아키텍처' : '아키텍처' });
   if (project.features) sections.push({ id: 'features', label: isDeck ? 'Ⅴ 기능' : '기능' });
@@ -111,7 +114,7 @@ export default function ProjectDetail() {
             <p className="detail__caption">
               {project.type === 'solo'
                 ? '이 사이트에서 제가 만든 부분입니다.'
-                : '팀 기능은 아래 담당에 모두 적었습니다. 여기서는 제가 주로 붙인 부분입니다.'}
+                : '팀 기능은 아래에 모두 적었습니다. 여기서는 제가 주로 붙인 부분입니다.'}
             </p>
             <ul className="model-grid">
               {project.myWork.map((item) => (
@@ -243,7 +246,7 @@ export default function ProjectDetail() {
           <section className="detail__section detail__section--highlight" id="role">
             <SectionBanner
               no="ROLE"
-              title="담당 업무"
+              title="팀 기능"
               en={project.type === 'solo' ? 'SOLO' : 'TEAM 3 · SAFETY'}
             />
             {project.roleNote && <p className="detail__caption">{project.roleNote}</p>}

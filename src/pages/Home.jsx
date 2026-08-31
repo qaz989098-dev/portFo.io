@@ -20,7 +20,10 @@ export default function Home() {
     const sections = [{ id: 'about', label: 'About' }];
 
     if (profile.education || profile.trainings?.length > 0) {
-      sections.push({ id: 'education', label: 'Education' });
+      sections.push({
+        id: 'education',
+        label: profile.education ? 'Education' : 'Training',
+      });
     }
 
     if (profile.skills?.length > 0 || profile.learningSkills?.items?.length > 0) {
@@ -118,7 +121,7 @@ export default function Home() {
       <div className="home-sections container">
         {(profile.education || profile.trainings?.length > 0) && (
           <section className="section" id="education">
-            <h2 className="section__title">Education</h2>
+            <h2 className="section__title">{profile.education ? 'Education' : 'Training'}</h2>
             <div className="panel">
               <ul className="edu-list">
                 {profile.education && (

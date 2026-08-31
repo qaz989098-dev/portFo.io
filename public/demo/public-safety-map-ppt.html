@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>공공안전지도 PPT</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+        color: #f8fafc;
+        background: #0f172a;
+      }
+
+      .demo {
+        width: min(100% - 2rem, 1100px);
+        margin: 0 auto;
+        padding: 1.5rem 0 2.5rem;
+      }
+
+      .demo__kicker {
+        margin: 0 0 0.35rem;
+        font-size: 0.75rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #93c5fd;
+      }
+
+      h1 {
+        margin: 0 0 1rem;
+        font-size: 1.65rem;
+        letter-spacing: -0.03em;
+      }
+
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 0 0 1rem;
+      }
+
+      .toolbar a {
+        display: inline-block;
+        padding: 0.55rem 0.95rem;
+        border-radius: 999px;
+        background: #1e293b;
+        color: #e2e8f0;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .toolbar a.primary {
+        background: #2563eb;
+        color: #fff;
+      }
+
+      .stage {
+        overflow: hidden;
+        background: #020617;
+        border: 1px solid #1e293b;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
+      }
+
+      iframe {
+        display: block;
+        width: 100%;
+        height: min(78vh, 900px);
+        border: 0;
+        background: #020617;
+      }
+
+      a.back {
+        display: inline-block;
+        margin-top: 1.25rem;
+        color: #93c5fd;
+        font-size: 0.875rem;
+        text-decoration: none;
+      }
+
+      a.back:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="demo">
+      <p class="demo__kicker">TEAM 3 · SAFETY</p>
+      <h1>공공안전지도 PPT</h1>
+      <div class="toolbar">
+        <a class="primary" href="/portFo.io/assets/deck/public-safety-map.pptx">원본 PPTX</a>
+      </div>
+      <div class="stage">
+        <iframe
+          src="/portFo.io/assets/deck/public-safety-map.pdf"
+          title="공공안전지도 PPT"
+        ></iframe>
+      </div>
+      <a class="back" href="/portFo.io/projects/public-safety-map">← 프로젝트 상세</a>
+    </main>
+  </body>
+</html>
