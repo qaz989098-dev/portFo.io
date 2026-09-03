@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>박상우 INTRO+</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: #fff;
+        color: #111;
+        font-family: "Noto Sans KR", sans-serif;
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .wrap {
+        width: min(100% - 32px, 920px);
+        margin: 0 auto;
+        padding: 28px 0 48px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 0.9fr 1.4fr;
+        gap: 20px;
+        align-items: start;
+        margin-bottom: 28px;
+      }
+
+      .hero__title {
+        margin: 0;
+        font-size: clamp(48px, 8vw, 72px);
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        line-height: 0.9;
+      }
+
+      .hero__title span {
+        font-size: 0.58em;
+        font-weight: 700;
+      }
+
+      .hero__intro p {
+        margin: 0 0 0.55em;
+        font-size: 14px;
+        font-weight: 500;
+        word-break: keep-all;
+      }
+
+      .hero__intro p:last-child {
+        margin-bottom: 0;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 28px;
+        align-items: start;
+      }
+
+      .profile {
+        position: sticky;
+        top: 16px;
+      }
+
+      .section {
+        margin: 0 0 22px;
+      }
+
+      .section:last-child {
+        margin-bottom: 0;
+      }
+
+      .section__title {
+        margin: 0 0 8px;
+        font-size: 15px;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+      }
+
+      .photo {
+        display: block;
+        width: 140px;
+        height: 175px;
+        object-fit: cover;
+        object-position: center top;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        background: #f3f4f6;
+      }
+
+      .profile-name {
+        margin: 0 0 2px;
+        font-size: 18px;
+        font-weight: 900;
+      }
+
+      .profile-role {
+        margin: 0 0 10px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #444;
+        word-break: keep-all;
+      }
+
+      .meta {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .meta li {
+        display: grid;
+        grid-template-columns: 52px 1fr;
+        gap: 8px;
+        margin: 0 0 5px;
+        font-size: 12px;
+      }
+
+      .meta span {
+        color: #6b7280;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: 158px minmax(0, 1fr);
+        gap: 24px;
+        margin: 0 0 10px;
+        align-items: baseline;
+      }
+
+      .row time {
+        font-weight: 700;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .row p,
+      .row strong {
+        margin: 0;
+        word-break: keep-all;
+      }
+
+      .row small {
+        display: block;
+        margin-top: 2px;
+        color: #6b7280;
+        font-size: 12px;
+        font-weight: 400;
+      }
+
+      .pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .pills li {
+        padding: 4px 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .note {
+        margin: 6px 0 0;
+        color: #6b7280;
+        font-size: 12px;
+        word-break: keep-all;
+      }
+
+      .block-title {
+        margin: 28px 0 8px;
+        font-size: 28px;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+      }
+
+      .lead,
+      .muted {
+        margin: 0 0 10px;
+        word-break: keep-all;
+      }
+
+      .muted {
+        color: #4b5563;
+        font-size: 13px;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+        margin: 0 0 8px;
+        padding: 0;
+        list-style: none;
+      }
+
+      .cards--two {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .cards li {
+        padding: 10px 12px;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+      }
+
+      .cards strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .cards p {
+        margin: 0;
+        color: #374151;
+        font-size: 13px;
+        word-break: keep-all;
+      }
+
+      .counts {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+        margin: 0 0 10px;
+        padding: 0;
+        list-style: none;
+      }
+
+      .counts li {
+        text-align: center;
+        padding: 8px 4px;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+      }
+
+      .counts strong {
+        display: block;
+        font-size: 15px;
+      }
+
+      .counts span {
+        color: #6b7280;
+        font-size: 12px;
+      }
+
+      .trouble {
+        margin: 0 0 10px;
+        padding: 0 0 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .trouble:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+      .trouble h3 {
+        margin: 0 0 4px;
+        font-size: 14px;
+      }
+
+      .trouble p {
+        margin: 0;
+        font-size: 13px;
+        word-break: keep-all;
+      }
+
+      .epilogue p {
+        margin: 0 0 0.65em;
+        word-break: keep-all;
+      }
+
+      .epilogue p:last-child {
+        margin-bottom: 0;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      a:hover {
+        color: #2563eb;
+      }
+
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 8px 0 0;
+      }
+
+      .links a {
+        display: inline-block;
+        padding: 4px 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .links a:hover {
+        border-color: #2563eb;
+        color: #2563eb;
+      }
+
+      @media (max-width: 760px) {
+        .hero,
+        .layout,
+        .row,
+        .cards,
+        .cards--two,
+        .counts {
+          grid-template-columns: 1fr;
+        }
+
+        .profile {
+          position: static;
+        }
+
+        .photo {
+          height: 175px;
+        }
+      }
+
+      @media print {
+        @page {
+          size: A4;
+          margin: 12mm 14mm;
+        }
+
+        body {
+          font-size: 11.5px;
+        }
+
+        .wrap {
+          width: auto;
+          margin: 0;
+          padding: 0;
+        }
+
+        .profile {
+          position: static;
+        }
+
+        .photo {
+          width: 120px;
+          height: 150px;
+        }
+
+        .hero {
+          margin-bottom: 16px;
+        }
+
+        .hero__title {
+          font-size: 48px;
+        }
+
+        .hero__intro p {
+          font-size: 11.5px;
+        }
+
+        .layout {
+          grid-template-columns: 150px 1fr;
+          gap: 18px;
+        }
+
+        .section {
+          margin-bottom: 14px;
+        }
+
+        .block-title {
+          break-before: page;
+          margin-top: 0;
+          font-size: 22px;
+        }
+
+        .cards li,
+        .trouble,
+        .counts li,
+        .row {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="hero">
+        <h1 class="hero__title">INTRO<span>+</span></h1>
+        <div class="hero__intro">
+          <p>웹·앱과 API를 한 제품으로 붙이는 풀스택을 익히고 있습니다. 대구 수성알파시티 실무형 AI·SW 인재육성 Lab에서 3조 SAFETY와 함께, 2026.07.22부터 09.01까지 약 6주 동안 공공안전지도를 만들었습니다.</p>
+          <p>팀에서는 Flutter와 Next.js로 화면을 만들고, Express·Prisma·MariaDB로 API와 데이터를 다뤘습니다. 입사 후 풀스택 업무에 바로 기여하고 싶습니다.</p>
+          <p>AI의 세계는 방대합니다. 방대함 속에서도 작은 데이터 하나 놓치지 않고 열정적이고 끈기 있는 풀스택 개발자가 되겠습니다.</p>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="profile">
+          <section class="section">
+            <h2 class="section__title">+ PROFILE</h2>
+            <img class="photo" src="photo.png" alt="박상우 프로필 사진" />
+            <p class="profile-name">박상우</p>
+            <p class="profile-role">AI를 향해 가는 풀스택 개발자</p>
+            <ul class="meta">
+              <li><span>생년월일</span>1992.04.03</li>
+              <li><span>연락처</span><a href="tel:01053739174">010-5373-9174</a></li>
+              <li><span>이메일</span><a href="mailto:qaz9890@naver.com">qaz9890@naver.com</a></li>
+              <li><span>위치</span>대구 수성알파시티</li>
+              <li><span>GitHub</span><a href="https://github.com/qaz989098-dev" target="_blank" rel="noopener noreferrer">qaz989098-dev</a></li>
+              <li>
+                <span>이력서</span>
+                <a
+                  href="https://qaz989098-dev.github.io/portFo.io/assets/resume/park-sangwoo-resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >이력서 보기</a>
+              </li>
+            </ul>
+          </section>
+        </aside>
+
+        <div>
+          <section class="section">
+            <h2 class="section__title">+ EDUCATION</h2>
+            <div class="row">
+              <time>26.06 — 26.10</time>
+              <p>
+                <strong>수성알파시티 실무형 AI·SW 인재육성 Lab</strong>
+                <small>(사)한국커리어혁신진흥원 · 경북대학교 AI융합캠퍼스 · 진행 중</small>
+              </p>
+            </div>
+          </section>
+
+          <section class="section">
+            <h2 class="section__title">+ ACTIVITIES</h2>
+            <div class="row">
+              <time>22.11 — 23.08</time>
+              <p>
+                <strong>제노메테리얼카본</strong>
+                <small>생산/설비 전반, 영업, 운송</small>
+              </p>
+            </div>
+          </section>
+
+          <section class="section">
+            <h2 class="section__title">+ PROJECT</h2>
+            <div class="row">
+              <time>26.07.22 — 26.09.01</time>
+              <p>
+                <strong>
+                  <a
+                    href="https://qaz989098-dev.github.io/portFo.io/projects/public-safety-map"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >공공안전지도</a>
+                </strong>
+                <span class="links">
+                  <a
+                    href="https://qaz989098-dev.github.io/portFo.io/projects/public-safety-map"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >프로젝트 보기</a>
+                  <a
+                    href="https://qaz989098-dev.github.io/portFo.io/demo/public-safety-map.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >화면 시연</a>
+                  <a
+                    href="https://qaz989098-dev.github.io/portFo.io/demo/public-safety-map-ppt.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >PPT</a>
+                </span>
+              </p>
+            </div>
+          </section>
+
+          <section class="section">
+            <h2 class="section__title">+ SKILL</h2>
+            <ul class="pills">
+              <li>Flutter</li>
+              <li>FCM</li>
+              <li>SQLite</li>
+              <li>Next.js</li>
+              <li>React</li>
+              <li>TypeScript</li>
+              <li>Zustand</li>
+              <li>Node.js</li>
+              <li>Express</li>
+              <li>Prisma</li>
+              <li>JWT</li>
+              <li>Session</li>
+              <li>node-cron</li>
+              <li>Supabase</li>
+              <li>PostgreSQL</li>
+              <li>MariaDB</li>
+              <li>Python</li>
+              <li>pandas</li>
+              <li>NumPy</li>
+              <li>scikit-learn</li>
+              <li>OpenCV</li>
+              <li>GitHub</li>
+              <li>Firebase</li>
+              <li>Vercel</li>
+            </ul>
+            <p class="note">공공안전지도 팀에서 사용한 스택입니다. 제가 깊게 붙인 일은 프로젝트 상세에 적어 두었습니다.</p>
+            <p class="note">학습 중 · 고도화: LLM 애플리케이션, 학습·추론 파이프라인. 아직 실무에 쓰는 기술이 아닙니다. 수업과 개인 학습으로 익히는 중입니다.</p>
+          </section>
+
+          <h2 class="block-title">PROJECT+</h2>
+          <p class="lead">공공안전지도 · 흩어져 있던 치안 인프라를 격자로 통합하고, 돌발 상황을 실시간으로 알려 주는 시민 참여형 안전 지도</p>
+          <p class="muted">26.07.22 — 26.09.01 · 3조 SAFETY · 4인 · Next.js · Flutter · Express · Prisma · MariaDB</p>
+          <p class="lead">(사)한국커리어혁신진흥원 주관 수성알파시티 실무형 AI·SW 인재육성 Lab의 팀 프로젝트입니다. 3조 SAFETY 4인이 흩어진 공공 안전 데이터를 0.01° 격자로 모아 안전·보통·불안 등급을 색으로 표시하고, 앱 제보와 400m 근접 알림으로 돌발 상황을 보완합니다.</p>
+
+          <section class="section">
+            <h3 class="section__title">+ WORK</h3>
+            <ul class="cards">
+              <li>
+                <strong>안전 경로 안내</strong>
+                <p>앱에서 지도를 길게 눌러 목적지를 정하고, CCTV 경유·최단·제보 최소화 경로를 나눴습니다. 최단 대비 소요 시간이 1.3배를 넘는 후보는 빼도록 했습니다.</p>
+              </li>
+              <li>
+                <strong>제보와 근접 알림</strong>
+                <p>제보·피드백·마이페이지를 붙이고, 사고다발구역이나 다른 사용자 제보에 400m 안으로 들어가면 FCM으로 알리게 했습니다.</p>
+              </li>
+              <li>
+                <strong>웹·앱 공통 API</strong>
+                <p>Express·Prisma·MariaDB API를 앱과 웹이 같이 쓰도록 연동했습니다. 화면은 플랫폼마다 나누되, 데이터는 한 백엔드를 보게 했습니다.</p>
+              </li>
+            </ul>
+          </section>
+
+          <section class="section">
+            <h3 class="section__title">+ PROBLEM → SOLUTION</h3>
+            <ul class="cards">
+              <li>
+                <strong>정보가 흩어져 있음</strong>
+                <p>CCTV·보안등·소방시설·파출소·편의점 등 치안 정보가 여러 페이지에 분산 → 시설을 0.01° 격자로 집계하고, 안전·보통·불안 색으로 한눈에 보이게 했습니다.</p>
+              </li>
+              <li>
+                <strong>실시간성이 없음</strong>
+                <p>사고·공사·싱크홀 등 돌발 상황이 지도에 늦게 반영 → KOROAD 위험구간 접근 감지와 제보를 결합해, 반경 400m 안의 사용자에게 FCM으로 알립니다.</p>
+              </li>
+              <li>
+                <strong>체감 안전도 확인 불가</strong>
+                <p>실제 거주자의 안전 감각을 담을 채널이 없음 → 불안·보통·안전 3단계와 태그·한 줄 평을 남겨 정량 데이터와 정성 피드백을 함께 반영합니다.</p>
+              </li>
+            </ul>
+          </section>
+
+          <h2 class="block-title">DATA+</h2>
+          <p class="lead">CCTV 약 37만, 경찰시설 약 3천, 소방시설 약 2천, 편의점 약 5.4만, KOROAD 사고다발 4종을 사용합니다. 격자는 0.01°이며, 매일 자정(Asia/Seoul) 배치로 safety_strength를 다시 계산합니다. 운영에는 규칙 기반 공식만 들어가 있고, RandomForest 등 ML은 참고용입니다.</p>
+          <ul class="counts">
+            <li><strong>≈ 370,000</strong><span>CCTV</span></li>
+            <li><strong>≈ 3,000</strong><span>경찰시설</span></li>
+            <li><strong>≈ 2,000</strong><span>소방시설</span></li>
+            <li><strong>≈ 54,000</strong><span>편의점</span></li>
+            <li><strong>4종</strong><span>KOROAD</span></li>
+          </ul>
+          <p class="muted">시설군 가중치 CCTV 11% · 경찰서 38% · 소방서 35% · 편의점 16%. 안전강도 = 인프라 점수 − 제보 감점 − 이력 감점 → 상대 3분위(불안 · 보통 · 안전)</p>
+          <p class="muted">데이터 수집 · 격자별 집계 · 인프라 점수화 · 가중합 · 백분위 · 감점 반영 · 등급 산출</p>
+          <p class="muted">행정안전부 생활안전지도 OpenAPI · 공공데이터포털 (CCTV·보안등 등)</p>
+
+          <section class="section">
+            <h3 class="section__title">+ FEATURE</h3>
+            <ul class="cards cards--two">
+              <li>
+                <strong>App</strong>
+                <p>제보 등록 · 피드백 등록 · 롱프레스 목적지 · CCTV 경유 / 최단 / 제보 최소화 · 400m 근접 알림 · 마이페이지</p>
+              </li>
+              <li>
+                <strong>Web</strong>
+                <p>안전등급 격자 · 인프라 · 사고다발구역 · 제보·피드백 열람 · 관리자 표시/숨김 · 도시정보 · 사용자 ↔ 관리자 채팅</p>
+              </li>
+            </ul>
+          </section>
+
+          <section class="section">
+            <h3 class="section__title">+ STACK</h3>
+            <p class="lead">Web은 Next.js·React·TypeScript·Zustand이고, 관리자는 Session으로 들어옵니다. App은 Flutter·Dart이며 일반 사용자는 JWT입니다. 격자·인프라는 SQLite에 받아 두고, 카카오맵·TMAP은 클라이언트가 직접 호출합니다. 메인 REST는 Node.js·Express·Prisma이고, 매일 자정 node-cron으로 안전등급을 다시 계산합니다. 제보 사진은 Python·OpenCV YuNet으로 모자이크합니다. 1:1 채팅은 메인 백엔드와 분리해 Supabase Realtime으로 두었습니다.</p>
+          </section>
+
+          <h2 class="block-title">ISSUE+</h2>
+          <article class="trouble">
+            <h3>01 · 경로 UI 미노출</h3>
+            <p>길찾기를 시작해도 하단 안내카드가 나타나지 않아, 경로가 계산됐는지 알 수 없었습니다. 하단 패널을 “내 제보” 리스트가 차지해 안내카드 영역이 가려졌습니다. 하단 패널을 길찾기 전용으로 바꾸고, 내 제보는 마이페이지로 옮겼습니다.</p>
+          </article>
+          <article class="trouble">
+            <h3>02 · 사고다발구역 API 호출 폭주</h3>
+            <p>지도를 살짝만 움직여도 KOROAD API가 매번 호출되어 사용량과 렌더링 부하가 늘었습니다. 뷰포트 변경마다 조건 없이 재호출하는 구조였습니다. 2초 무동작 + 구(區) 변경 시에만 호출하고, 일정 줌 이상에서는 호출·표시를 중단했습니다.</p>
+          </article>
+          <article class="trouble">
+            <h3>03 · KOROAD 4종 중 하나 실패 시 전체 미표시</h3>
+            <p>보행자·자전거·이륜차·어린이보호구역 중 하나만 실패해도 나머지까지 표시되지 않았습니다. Promise.all로 4개 요청이 한 성공/실패 단위로 묶여 있었습니다. Promise.allSettled로 분리해, 실패한 유형만 빼고 나머지는 표시했습니다.</p>
+          </article>
+          <article class="trouble">
+            <h3>04 · 줌 아웃 시 격자 대량 생성</h3>
+            <p>지도를 전국 단위까지 축소하면 격자가 폭증해 브라우저가 느려졌습니다. 최소 줌 제한 없이 뷰포트 안 격자를 모두 그렸습니다. MAX_ZOOM_OUT = 9와 렌더 상한을 두고, 그 이상 축소 시 격자 표시를 중단했습니다.</p>
+          </article>
+
+          <section class="section">
+            <h3 class="section__title">+ EPILOGUE</h3>
+            <div class="epilogue">
+              <p>한때 생사의 갈림길에서 삶이 멈추는 시련을 겪었지만, 그 고난을 견뎌내며 한층 더 단단하고 내면이 강한 사람으로 거듭났습니다. 또한 그 과정에서 멈춰 있던 순간을 다시 움직이게 만드는 ‘작은 신호와 데이터’의 소중함을 누구보다 깊이 깨달았습니다.</p>
+              <p>현장의 미세한 이상 징후를 포기하지 않고 끝까지 추적하듯, 데이터 하나하나에 진심을 다하겠습니다.</p>
+              <p>어떤 시련도 이겨낸 불굴의 의지로, 산업 현장과 서비스에 실제 가치를 더하는 끈기 있는 풀스택 개발자로 성장하겠습니다.</p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
