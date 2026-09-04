@@ -285,15 +285,15 @@ img {
   font-size: 0.875rem;
   font-weight: 500;
   border-radius: 999px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--accent);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
   transition: border-color 0.15s, background 0.15s;
 }
 
 .contact-chip:hover {
-  border-color: var(--accent);
-  background: var(--accent-soft);
+  border-color: #1d4ed8;
+  background: #1d4ed8;
 }
 
 .contact-chip--email {
@@ -315,14 +315,14 @@ img {
   margin-top: 1rem;
   padding: 0.4rem 1rem 0.4rem 0.4rem;
   border-radius: 999px;
-  background: #111827;
+  background: var(--accent);
   color: #fff;
-  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.16);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.22);
   transition: transform 0.15s, background 0.15s, box-shadow 0.15s;
 }
 
 .resume-btn:hover {
-  background: var(--accent);
+  background: #1d4ed8;
   box-shadow: 0 10px 24px rgba(37, 99, 235, 0.28);
   transform: translateY(-1px);
 }
@@ -761,13 +761,14 @@ img {
 }
 
 .btn--ghost {
-  background: transparent;
-  border-color: var(--border);
-  color: var(--text);
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
 .btn--ghost:hover {
-  border-color: var(--text-muted);
+  background: #1d4ed8;
+  border-color: #1d4ed8;
 }
 
 /* Image slots */
@@ -1513,19 +1514,19 @@ img {
   padding: 0.65rem 1.35rem;
   border: 0;
   border-radius: 999px;
-  background: #111827;
+  background: var(--accent);
   color: #fff;
   font: inherit;
   font-size: 0.9375rem;
   font-weight: 600;
   letter-spacing: -0.02em;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.16);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.22);
   transition: transform 0.15s, background 0.15s, box-shadow 0.15s;
 }
 
 .epilogue-btn:hover {
-  background: var(--accent);
+  background: #1d4ed8;
   box-shadow: 0 10px 24px rgba(37, 99, 235, 0.28);
   transform: translateY(-1px);
 }
@@ -1693,16 +1694,16 @@ img {
   font-size: 1.125rem;
   font-weight: 600;
   line-height: 1;
-  color: var(--text);
-  background: var(--surface);
-  border: 1px solid var(--border);
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid var(--accent);
   border-radius: 999px;
-  box-shadow: var(--shadow-hover);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.22);
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
   transform: translateY(0.5rem);
-  transition: opacity 0.2s, visibility 0.2s, transform 0.2s, border-color 0.15s, color 0.15s;
+  transition: opacity 0.2s, visibility 0.2s, transform 0.2s, border-color 0.15s, background 0.15s, color 0.15s;
 }
 
 .scroll-top--visible {
@@ -1712,8 +1713,9 @@ img {
 }
 
 .scroll-top:hover {
-  color: var(--accent);
-  border-color: var(--accent);
+  color: #fff;
+  background: #1d4ed8;
+  border-color: #1d4ed8;
 }
 
 .scroll-top:focus-visible {
